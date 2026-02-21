@@ -1,0 +1,66 @@
+<mvc:View controllerName="code.zdemo02g20.controller.Main"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m">
+    <Page id="page" title="{i18n>title}">
+
+        <Table id="tabCarrier" items="{/CarrierSet}" growing="true" growingThreshold="10" mode="SingleSelectMaster" selectionChange="onSelectChange">
+            <columns>
+                <Column id="colCarrid">
+                    <header><Text id="TxtCarrid" text="Airline Code" /></header>
+                </Column>
+                <Column id="colCarrnm">
+                    <header><Text id="TxtCarrnm" text="Airline Name" /></header>
+                </Column>
+                <Column id="colCurrCode">
+                    <header><Text id="TxtCurrCode" text="Currency Code" /></header>
+                </Column>
+            </columns> 
+
+            <items>
+                <ColumnListItem id="colListCar" type="Navigation"> <cells>
+                        <Text id="celTxtCarrid" text="{Carrid}" />
+                        <Text id="celTxtCarrnm" text="{Carrname}" />
+                        <Text id="celTxtCurrCode" text="{Currcode}" />
+                    </cells>
+                </ColumnListItem>
+            </items>
+        </Table>
+
+        <Table id="tabConnect" items="{to_Connect}">
+            <columns>
+                <Column id="colConCarrid">
+                    <header><Text id="hTxtCarrid" text="Carrier" /></header>
+                </Column>
+                <Column id="colConConnid">
+                    <header><Text id="hTxtConnid" text="Connection ID" /></header>
+                </Column>
+                <Column id="colConCityfr">
+                    <header><Text id="hTxtCityfr" text="Departure City" /></header>
+                </Column>
+                <Column id="colConAirpfr">
+                    <header><Text id="hTxtAirpfr" text="Departure Airport" /></header>
+                </Column>
+                <Column id="colConCityto">
+                    <header><Text id="hTxtCityto" text="Destination City" /></header>
+                </Column>
+                <Column id="colConAirpto">
+                    <header><Text id="hTxtAirpto" text="Destination Airport" /></header>
+                </Column>
+            </columns>
+
+            <items>
+                <ColumnListItem id="colListConnect">
+                    <cells>
+                        <Text id="celTxtConCar" text="{Carrid}" />
+                        <Text id="celTxtConCon" text="{Connid}" />
+                        <Text id="celTxtConCitfr" text="{Cityfrom}" />
+                        <Text id="celTxtConAirfr" text="{Airpfrom}" />
+                        <Text id="celTxtConCitto" text="{Cityto}" />
+                        <Text id="celTxtConAirto" text="{Airpto}" />
+                    </cells>
+                </ColumnListItem>
+            </items>
+        </Table>
+        
+    </Page>
+</mvc:View>

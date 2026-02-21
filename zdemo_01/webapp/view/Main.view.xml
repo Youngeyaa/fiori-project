@@ -1,0 +1,42 @@
+<mvc:View xmlns:footerbar="sap.ushell.ui.footerbar" controllerName="code.zdemo01.controller.Main"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m">
+    <Page id="page" title="{i18n>title}">
+        <Panel id="PanelCond" headerText="Condition">
+            <content>
+                <Label id="Lblcarrid" text="Airline Code"></Label>
+                <Input id="InpCarrid" value=""></Input>
+                <Button id="BtnSearch" text="Search" press="onSearch"></Button>
+            </content>
+        </Panel>
+
+
+
+        <Panel id="PanelInfo" headerText="Information">
+            <content>
+                <Input id="InpInfoCarrid" value="{info>Carrid}" maxLength="3" width="50px"></Input>
+                <!-- strictParsing: true 설정하지 않으면 9999-12-31 은 10000.01.01 로 표시 -->
+                <!-- UTC: true : Local time zone 말고 Gateway server 에서 주는 일자 그대로 표시 -->
+                <DatePicker id="DPBegda" value="{path: 'info>Begda',
+                                                 type: 'sap.ui.model.type.Date',
+                                                 formatOptions: {pattern: 'yyyy.MM.dd', strictParsing: true, UTC: true}}"
+                                                 displayFormat="yyyy.MM.dd"
+                                                 valueFormat='yyyy-MM-dd'></DatePicker>
+
+                <DatePicker id="DPEndda" value="{path: 'info>Endda',
+                                                 type: 'sap.ui.model.type.Date',
+                                                 formatOptions: {pattern: 'yyyy.MM.dd', strictParsing: true, UTC: true}}"
+                                                 displayFormat="yyyy.MM.dd"
+                                                 valueFormat='yyyy-MM-dd'></DatePicker>
+                <Input id="InpInfoPrice" value="{parts:[{path:'info>Price'}, {path: 'info>Waers'}],
+                                                 type: 'sap.ui.model.type.Currency',
+                                                 formatOptions:{showMeasure: false }}"></Input>
+                <Text id="InpInfoWaers" text="{info>Waers}"></Text>
+                
+                <Button id="BtnInsert" text="Insert" press="onInsert"></Button>
+                <Button id="BtnUpdate" text="Update" press="onUpdate"></Button>
+                <Button id="BtnDelete" text="Delete" press="onDelete"></Button>
+            </content>
+        </Panel>
+    </Page>
+</mvc:View>

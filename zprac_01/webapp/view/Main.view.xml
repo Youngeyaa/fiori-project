@@ -1,0 +1,74 @@
+<mvc:View controllerName="code.zprac01.controller.Main"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:form='sap.ui.layout.form'
+    xmlns:core="sap.ui.core"
+    xmlns:table='sap.m.Table'
+    xmlns="sap.m">
+    <Page id="page" title="{i18n>title}">
+
+        <content>
+          <form:SimpleForm 
+          id="FormAirline"
+          editable="true"
+          layout="ResponsiveGridLayout"
+          >
+          
+          <form:toolbar>
+
+            <Toolbar id="FormToolbar">
+            
+                <ToolbarSpacer id="spacer" />
+                <Button id="BtnCreate" text="Create" icon="sap-icon://accept" type="Accept" press="onCreate" ></Button>
+                <Button id="BtnChange" text="Change" icon="sap-icon://alert" type="Attention" press="onChange"></Button>
+                <Button id="BtnDelete" text="Delete" icon="sap-icon://decline" type="Reject" press="onDelete"></Button>
+            </Toolbar>
+
+          </form:toolbar>
+
+          <form:content>
+          
+            <Label id = "LblAirlineCode" text="Airline Code: " />
+            <Input id = "InpAirlineCode" maxLength="3" />
+
+            <Label id = "LblAirlineName" text="Airline Name: " />
+            <Input id = "InpAirlineName" maxLength="30" />
+
+            <Label id = "LblCurrencyCode" text="Currency Code: " />
+            <Input id = "InpCurrencyCode" maxLength="5" />
+
+          </form:content>
+          
+          </form:SimpleForm>
+
+
+
+
+          <Table id="TableCarrier" 
+               items="{/CarrierSet}" 
+               mode="SingleSelectMaster" 
+               selectionChange="onSelectionChange">
+            <headerToolbar>
+                <OverflowToolbar id="oft">
+                    <Title id="oftt" text="Carrier List" level="H4"/>
+                </OverflowToolbar>
+            </headerToolbar>
+            <columns>
+                <Column id="col1"><Text id="txt1" text="Airline Code" /></Column>
+                <Column id="col2"><Text id="txt2" text="Airline Name" /></Column>
+                <Column id="col3"><Text id= "txt3" text="Currency" /></Column>
+            </columns>
+            <items>
+                <ColumnListItem id="colist1">
+                    <cells>
+                        <Text id="txt11" text="{Carrid}" />
+                        <Text id="txt22" text="{Carrname}" />
+                        <Text id="txt33" text="{Currcode}" />
+                    </cells>
+                </ColumnListItem>
+            </items>
+        </Table>
+        
+        </content>
+
+    </Page>
+</mvc:View>
