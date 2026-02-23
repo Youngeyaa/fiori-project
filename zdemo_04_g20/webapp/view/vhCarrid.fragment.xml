@@ -1,0 +1,18 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+>
+    <SelectDialog id="idSelect"
+                    title="Airline" 
+                    class="sapUiPopupWithPadding" 
+                    items="{/CarrierSet}" 
+                    search="onValueHelpSearch" 
+                    confirm="onValueHelpClose"
+                    cancel="onValueHelpClose">
+       
+        <StandardListItem id="stdListItem" 
+                            title="{Carrid}"
+                            description="{Carrname}">
+         </StandardListItem>
+    </SelectDialog>
+    </core:FragmentDefinition>

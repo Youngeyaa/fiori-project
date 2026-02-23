@@ -2,6 +2,12 @@
     xmlns:mvc="sap.ui.core.mvc"
     xmlns="sap.m">
     <Page id="page" title="{i18n>title}">
-        
+        <VBox id="vBox" class="sapUiResponsiveMargin">
+            <HBox id="hBox">
+                <Label id="lblAirline" text="Airline"></Label>
+                <Input id="inpCarrid" showSuggestion="true" showValueHelp="true" valueHelpRequest="onValueHelpRequest" maxLength="3" width="150px"></Input>
+            </HBox>
+            <Button id="btnPopup1" text="Airline info(popup)" press="onPopup"></Button>
+        </VBox>
     </Page>
 </mvc:View>
