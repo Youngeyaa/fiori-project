@@ -3,7 +3,7 @@
     xmlns="sap.m"
     xmlns:f ="sap.ui.layout.form">
     <Page id="page" title="{i18n>title}">
-        <VBox id="idVbox" class="sapUiSamllMargin">
+        <VBox id="idVbox" class="sapUiSmallMargin">
         <!-- 검색 조건 -->
             <HBox id="idHBox" class="sapUiSmallMarginBottom">
                 <Input id="idFrominput" placeholder="Departure City" width="300px" class="sapUiSmallMargin"></Input>
@@ -11,7 +11,7 @@
                 <Button id="btnSearch" text="Search" press="onSearch" type="Emphasized"></Button>
             </HBox>
 
-            <Table id="idInfoTable" items="" mode="SingleSelectMaster" selectionChange="onSelctionChange">
+            <Table id="idInfoTable" items="" mode="SingleSelectMaster" selectionChange="onSelectionChange">
                 <columns>
                     <Column id="colCarrid"><Text id="colTxtCarrid" text="Airline Code"></Text></Column>
                     <Column id="colConnid"><Text id="colTxtConnid" text="Connection No."></Text></Column>
@@ -32,6 +32,44 @@
                     </cells>
                 </ColumnListItem>
             </Table>
+
+            <Panel id="panInfo" headerText="Detail Info" expanded="true" expandable="true" class="sapUiSmallMarginEnd sapUiSmallMarginTop">
+                <content>
+                    <f:SimpleForm id="idSmpform" layout="ResponsiveGridLayout" editable="true">
+                        <f:content>
+                            <Label id="lblCarrid" text="Airline Code"></Label>
+                            <Input id ="inpInfoCarrid" value="{Carrid}" width="100px" editable="{= !${mode>/isEdit}}"></Input>
+
+                            <Label id="lblConnid" text="Connection NO."></Label>
+                            <Input id ="inpInfoConnid" value="{Connid}" width="100px" editable="{= !${mode>/isEdit}}"></Input>
+
+                            <Label id="lblCityfr" text="Departure City"></Label>
+                            <Input id ="inpInfoCityfr" value="{Cityfrom}" width="300px"></Input>
+
+                            <Label id="lblAirpfr" text="Departure Airport"></Label>
+                            <Input id ="inpInfoAirpfr" value="{Airpfrom}" width="300px"></Input>
+
+                             <Label id="lblCityto" text="Arrival city"></Label>
+                            <Input id ="inpInfoCityto" value="{Cityto}" width="300px"></Input>
+
+                             <Label id="lblAirpto" text="Arrival airport"></Label>
+                            <Input id ="inpInfoAirpto" value="{Airpto}" width="300px"></Input>
+
+                        </f:content>
+                    </f:SimpleForm>
+
+                    <OverflowToolbar id="ovToolbar" style="Clear">
+                        <Button id="btnReset" text="reset" press="onReset" type="Transparent" icon="sap-icon://refresh"></Button>
+
+                        <ToolbarSpacer id="toolBarSpace"></ToolbarSpacer>
+
+                        <Button id="btnInsert" text="Insert" press="onInsert" type="Accept" icon="sap-icon://add"></Button>
+                        <Button id="btnUpdate" text="Update" press="onUpdate" type="Emphasized" icon="sap-icon://edit"></Button>
+                        <Button id="btnDelete" text="Delete" press="onDelete" type="Critical" icon="sap-icon://delete"></Button>
+
+                    </OverflowToolbar>
+                </content>
+            </Panel>
         </VBox>
     </Page>
 </mvc:View>
