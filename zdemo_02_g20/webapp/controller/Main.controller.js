@@ -16,8 +16,7 @@ sap.ui.define([
 
         //     let oTable = this.getView().byId("tabConnect");
         //     oTable.bindElement(sPath);
-        // }
-
+        
         onSelectChange: function( oEvent ){
             // 1. 클릭한 줄의 정보와 정확한 경로(Path) 가져오기
             let oSelectItem = oEvent.getParameter("listItem");
