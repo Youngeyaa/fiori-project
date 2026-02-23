@@ -1,6 +1,7 @@
 sap.ui.define([
-    "sap/ui/core/mvc/Controller"
-], (Controller) => {
+    "sap/ui/core/mvc/Controller",
+    "sap/m/MessageToast"
+], (Controller, MessageToast) => {
     "use strict";
 
     return Controller.extend("code.zdemo03g20.controller.Main", {
@@ -67,9 +68,119 @@ sap.ui.define([
             oPanel.unbindElement();
 
             
-            let oModel = this.getView().getModel("mode");
-            oModel.setProperty("/isEdit", false);
+            let oModeModel = this.getView().getModel("mode");
+            oModeModel.setProperty("/isEdit", false);
 
+       
+        },
+
+    
+
+        onInsert(){
+
+            let oPayload = {
+                    Carrid   : this.byId("inpInfoCarrid").getValue(),
+                    Connid   : this.byId("inpInfoConnid").getValue(),
+                    Cityfrom : this.byId("inpInfoCityfr").getValue(),
+                    Airpfrom : this.byId("inpInfoAirpfr").getValue(),
+                    Cityto   : this.byId("inpInfoCityto").getValue(),
+                    Airpto   : this.byId("inpInfoAirpto").getValue()
+                };
+
+        //  서버와 통신할 기본 OData 모델을 가져오기
+        let oModel = this.getView().getModel();
+
+        //  서버의 엔티티셋(/ConnectSet)으로 데이터 생성(Create) 요청을 보내기.
+        oModel.create("/ConnectSet", oPayload, {
+            success: function() {
+                // 서버 저장 성공 시 알림을 띄우고 테이블을 새로고침.
+                sap.m.MessageToast.show("데이터가 성공적으로 저장되었습니다! 🎉");
+                oModel.refresh(); 
+            },
+            error: function(oError) {
+                // 서버 저장 실패 시 에러 메시지를 띄움.
+                sap.m.MessageToast.show("저장 중 오류가 발생했습니다. 😢");
+            }
+
+            });
+
+        },
+
+        onUpdate(){
+
+            // 서버와 통신할 기본 oData 모델 가져오기
+            let oModel = this.getView().getModel();
+
+            // 현재 패널에 연결된 데이터의 경로path 가져오기
+            // ex : /connectset(carrid='AA', connnid='0014')
+
+            let oContext = this.byId("panInfo").getBindingContext();
+
+            if(!oContext){
+
+                sap.m.MessageToast.show("Choose Data to update");
+                return;
+            }
+
+            let sPath = oContext.getPath();
+
+            // 화면의 입력칸에서 수정된 값 직접 수집
+            let oPayload = {
+                Carrid : this.byId("inpInfoCarrid").getValue(),
+                Connid   : this.byId("inpInfoConnid").getValue(),
+                Cityfrom : this.byId("inpInfoCityfr").getValue(),
+                Airpfrom : this.byId("inpInfoAirpfr").getValue(),
+                Cityto   : this.byId("inpInfoCityto").getValue(),
+                Airpto   : this.byId("inpInfoAirpto").getValue()
+            };
+
+            oModel.update(sPath, oPayload, {
+                success : function() {
+                    sap.m.MessageToast.show("Updated successfully");
+                    oModel.refresh();
+                },
+                error: function(){
+                    sap.m.MessageToast.show("error occured");
+                }
+            });
+
+        },
+
+        onDelete(){
+
+            //서버와 통신할 기본 odata 모델
+            let oModel = this.getView().getModel();
+
+            // 현재 패널에 연결된 데이터의 경로  가져오기 
+            let oContext = this.byId("panInfo").getBindingContext();
+
+            if(!oContext){
+                sap.m.MessageToast.show("select data to delete");
+                return;
+            }
+
+            let sPath = oContext.getPath();
+
+            if(!confirm("Are you gonna delete this data for sure?")){
+                return;
+            }
+
+            oModel.remove(sPath,{
+                success: ()=>{
+                    sap.m.MessageToast.show("Deleted Successfully");
+
+                    let oPanel = this.byId("panInfo");
+                    oPanel.unbindElement();
+                    oModel.refresh();
+
+                    let oModeModel = this.getView().getModel("mode");
+                    oModeModel.setProperty("/isEdit", false);
+                },
+
+                error: function (){
+                    sap.m.MessageToast.show("Error Occured whiile you delete")
+                }
+            });
         }
 
     });

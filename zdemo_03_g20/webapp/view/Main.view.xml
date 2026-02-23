@@ -11,7 +11,7 @@
                 <Button id="btnSearch" text="Search" press="onSearch" type="Emphasized"></Button>
             </HBox>
 
-            <Table id="idInfoTable" items="" mode="SingleSelectMaster" selectionChange="onSelectionChange">
+            <Table id="idInfoTable" items="" mode="SingleSelectMaster" selectionChange="onSelectionChange" growing="true" growingThreshold="5" growingScrollToLoad="true" >
                 <columns>
                     <Column id="colCarrid"><Text id="colTxtCarrid" text="Airline Code"></Text></Column>
                     <Column id="colConnid"><Text id="colTxtConnid" text="Connection No."></Text></Column>
