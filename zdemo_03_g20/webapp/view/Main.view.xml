@@ -1,6 +1,37 @@
 <mvc:View controllerName="code.zdemo03g20.controller.Main"
     xmlns:mvc="sap.ui.core.mvc"
-    xmlns="sap.m">
+    xmlns="sap.m"
+    xmlns:f ="sap.ui.layout.form">
     <Page id="page" title="{i18n>title}">
+        <VBox id="idVbox" class="sapUiSamllMargin">
+        <!-- 검색 조건 -->
+            <HBox id="idHBox" class="sapUiSmallMarginBottom">
+                <Input id="idFrominput" placeholder="Departure City" width="300px" class="sapUiSmallMargin"></Input>
+                <Input id="idToinput" placeholder="Arrival City" width="300px" class="sapUiSmallMargin"></Input>
+                <Button id="btnSearch" text="Search" press="onSearch" type="Emphasized"></Button>
+            </HBox>
+
+            <Table id="idInfoTable" items="" mode="SingleSelectMaster" selectionChange="onSelctionChange">
+                <columns>
+                    <Column id="colCarrid"><Text id="colTxtCarrid" text="Airline Code"></Text></Column>
+                    <Column id="colConnid"><Text id="colTxtConnid" text="Connection No."></Text></Column>
+                    <Column id="colCityfr"><Text id="colTxtCityfr" text="Departure Cirt"></Text></Column>
+                    <Column id="colAirpfr"><Text id="colTxtAirpfr" text="Departure Airport"></Text></Column>
+                    <Column id="colCityto"><Text id="colTxtCityto" text="Arrival City"></Text></Column>
+                    <Column id="colAirpto"><Text id="colTxtAirpto" text="Arrival Airport"></Text></Column>
+                </columns>
+
+                <ColumnListItem id="colList">
+                    <cells>
+                        <Text id="celTxtCarrid" text="{Carrid}"></Text>
+                        <Text id="celTxtConnid" text="{Connid}"></Text>
+                        <Text id="celTxtCityfr" text="{Cityfrom}"></Text>
+                        <Text id="celTxtAirpfr" text="{Airpfrom}"></Text>
+                        <Text id="celTxtCityto" text="{Cityto}"></Text>
+                        <Text id="celTxtAirpto" text="{Airpto}"></Text>
+                    </cells>
+                </ColumnListItem>
+            </Table>
+        </VBox>
     </Page>
 </mvc:View>
