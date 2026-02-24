@@ -3,6 +3,29 @@
     xmlns:core="sap.ui.core"
 >
 
+<Dialog id="idDialog" title="Airline Info">
+    <buttons>
+         <Button id="btnClose" text="Close" press="onPopupClose"></Button>
+    </buttons>
 
+    <content>
+        <VBox id="idVbox" class="sapUiSmallMargin">
+            <HBox id="idHBox1" class="sapUiSmallMargin">
+                <Label id="lblCarrid" text="Airline Code"></Label>
+                <Input id="hInpCarrid" value="{Carrid}" editable="false"></Input>
+            </HBox>
+
+             <HBox id="idHBox2" class="sapUiSmallMargin">
+                <Label id="lblCarrname" text="Airline Name"></Label>
+                <Input id="hInpCarrname" value="{Carrname}" editable="false"></Input>
+            </HBox>
+
+             <HBox id="idHBox3" class="sapUiSmallMargin">
+                <Label id="lblCurrcode" text="Currency Code"></Label>
+                <Input id="hInpCurrcode" value="{Currcode}" editable="false"></Input>
+            </HBox>
+        </VBox>
+    </content>
+</Dialog>
 
 </core:FragmentDefinition>

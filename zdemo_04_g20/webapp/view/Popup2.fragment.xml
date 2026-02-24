@@ -1,0 +1,31 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+>
+
+<Dialog id="idDialog2" title="Airline Info">
+    <buttons>
+         <Button id="btnClose2" text="Close" press="onPopupClose"></Button>
+    </buttons>
+
+    <content>
+        <VBox id="idVbox2" class="sapUiSmallMargin">
+            <HBox id="idHBox21" class="sapUiSmallMargin">
+                <Label id="lblCarrid2" text="Airline Code"></Label>
+                <Input id="hInpCarrid2" value="{popup>/Carrid}" editable="false"></Input>
+            </HBox>
+
+             <HBox id="idHBox22" class="sapUiSmallMargin">
+                <Label id="lblCarrname2" text="Airline Name"></Label>
+                <Input id="hInpCarrname2" value="{popup>/Carrname}" editable="false"></Input>
+            </HBox>
+
+             <HBox id="idHBox23" class="sapUiSmallMargin">
+                <Label id="lblCurrcode2" text="Currency Code"></Label>
+                <Input id="hInpCurrcode2" value="{popup>/Currcode}" editable="false"></Input>
+            </HBox>
+        </VBox>
+    </content>
+</Dialog>
+
+</core:FragmentDefinition>
