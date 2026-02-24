@@ -8,6 +8,7 @@
             <HBox id="idHBox" class="sapUiSmallMarginBottom">
                 <Input id="idFrominput" placeholder="Departure City" width="300px" class="sapUiSmallMargin"></Input>
                 <Input id="idToinput" placeholder="Arrival City" width="300px" class="sapUiSmallMargin"></Input>
+                <Input id="idAirpinput" placeholder="Airport" width="100px" class= "sapUiSmallMargin" showSuggestion="true" showValueHelp="true" valueHelpRequest="onValueHelpRequest"></Input>
                 <Button id="btnSearch" text="Search" press="onSearch" type="Emphasized"></Button>
             </HBox>
 

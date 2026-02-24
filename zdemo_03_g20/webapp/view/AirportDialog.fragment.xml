@@ -1,0 +1,23 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+>
+
+    <SelectDialog 
+    
+        id="airportDialog"
+        title="Select Airport"
+        items="{/AirportSet}"
+        search="onValueHelpSearch"
+        confirm="onValueHelpClose"
+        cancel="onValueHelpClose">
+        
+        <StandardListItem 
+            id="stdList"
+            title = "{Id}"
+            description="{Name}">
+        
+        </StandardListItem>
+     </SelectDialog>
+
+</core:FragmentDefinition>

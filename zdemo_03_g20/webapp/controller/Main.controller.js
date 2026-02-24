@@ -1,3 +1,5 @@
+// const { Fragment } = require("react/jsx-runtime");
+
 sap.ui.define([
     "sap/ui/core/mvc/Controller",
     "sap/m/MessageToast"
@@ -28,6 +30,12 @@ sap.ui.define([
             let cityTo = this.byId("idToinput").getValue();
             if(cityTo){
                 aFilters.push(new sap.ui.model.Filter("Cityto", sap.ui.model.FilterOperator.Contains, cityTo))
+            };
+
+            let airpFrom = this.byId("idAirpinput").getValue();
+            if(airpFrom){
+
+                aFilters.push(new sap.ui.model.Filter("Airpfrom", sap.ui.model.FilterOperator.Contains, airpFrom.toUpperCase()));
             };
 
             let oTable = this.byId("idInfoTable");
@@ -181,6 +189,57 @@ sap.ui.define([
                     sap.m.MessageToast.show("Error Occured whiile you delete")
                 }
             });
+        },
+
+        onValueHelpRequest (oEvent){
+
+            // this._Air = oEvent.getSource().getId();
+            // if(!this._oValueHelpDialog){
+            //     this._oValueHelpDialog = sap.ui.xmlfragment(
+            //         "code.zdemo03g20.view.AirportDialog",
+            //          this
+            //     );
+
+            //     this.getView().addDependent(this._oValueHelpDialog);
+            // }
+            // this._oValueHelpDialog.open();
+          
+            let oView = this.getView();
+
+            if(!this._pDialog){
+                this._pDialog = sap.ui.core.Fragment.load({
+                    id: oView.getId(),
+                    name: "code.zdemo03g20.view.AirportDialog",
+                    controller: this
+
+                }).then(function (oDialog) {
+                    oView.addDependent(oDialog)
+                    return oDialog;
+                });
+     
+            }
+
+            this._pDialog.then(function(oDialog){
+                oDialog.open();
+            })
+        },
+
+        onValueHelpClose(oEvent){
+            let oSelectedItem = oEvent.getParameter("selectedItem");
+
+            if(oSelectedItem){
+                let sAirportCode = oSelectedItem.getTitle();
+                console.log(sAirportCode);
+                this.byId("idAirpinput").setValue(sAirportCode);
+            }
+        },
+
+        onValueHelpSearch(oEvent){
+
+            let selValue = oEvent.getParameters("value");
+            let oFilter= new sap.ui.model.Filter("Name", sap.ui.model.FilterOperator.Contains, selValue.value);
+            let aFilter = [ oFilter ]
+            oEvent.getParameter("itemsBinding").filter(aFilter);
         }
 
     });
