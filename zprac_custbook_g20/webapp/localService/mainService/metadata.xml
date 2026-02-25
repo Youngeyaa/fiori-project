@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:sap="http://www.sap.com/Protocols/SAPData">
+    <edmx:DataServices m:DataServiceVersion="2.0">
+        <Schema Namespace="ZGW_PRAC_CUSTBOOK_SRV" xml:lang="en" sap:schema-version="1" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+            <EntityType Name="Customer" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Id"/>
+                </Key>
+                <Property Name="Id" Type="Edm.String" Nullable="false" MaxLength="8" sap:unicode="false" sap:label="Customer Number" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Name" Type="Edm.String" Nullable="false" MaxLength="25" sap:unicode="false" sap:label="Customer name" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Telephone" Type="Edm.String" Nullable="false" MaxLength="30" sap:unicode="false" sap:label="Tel." sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <NavigationProperty Name="ToBooking" Relationship="ZGW_PRAC_CUSTBOOK_SRV.Customer_to_Booking" FromRole="FromRole_Customer_to_Booking" ToRole="ToRole_Customer_to_Booking"/>
+            </EntityType>
+            <EntityType Name="Booking" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Carrid"/>
+                    <PropertyRef Name="Connid"/>
+                    <PropertyRef Name="Fldate"/>
+                    <PropertyRef Name="Bookid"/>
+                </Key>
+                <Property Name="Carrid" Type="Edm.String" Nullable="false" MaxLength="3" sap:unicode="false" sap:label="Airline" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Connid" Type="Edm.String" Nullable="false" MaxLength="4" sap:unicode="false" sap:label="Flight Number" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Fldate" Type="Edm.DateTime" Nullable="false" Precision="7" sap:unicode="false" sap:label="Date" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Bookid" Type="Edm.String" Nullable="false" MaxLength="8" sap:unicode="false" sap:label="Booking number" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Customid" Type="Edm.String" Nullable="false" MaxLength="8" sap:unicode="false" sap:label="Customer Number" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </EntityType>
+            <Association Name="Customer_to_Booking" sap:content-version="1">
+                <End Type="ZGW_PRAC_CUSTBOOK_SRV.Customer" Multiplicity="1" Role="FromRole_Customer_to_Booking"/>
+                <End Type="ZGW_PRAC_CUSTBOOK_SRV.Booking" Multiplicity="*" Role="ToRole_Customer_to_Booking"/>
+                <ReferentialConstraint>
+                    <Principal Role="FromRole_Customer_to_Booking">
+                        <PropertyRef Name="Id"/>
+                    </Principal>
+                    <Dependent Role="ToRole_Customer_to_Booking">
+                        <PropertyRef Name="Customid"/>
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
+            <EntityContainer Name="ZGW_PRAC_CUSTBOOK_SRV_Entities" m:IsDefaultEntityContainer="true" sap:supported-formats="atom json xlsx">
+                <EntitySet Name="CustomerSet" EntityType="ZGW_PRAC_CUSTBOOK_SRV.Customer" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <EntitySet Name="BookingSet" EntityType="ZGW_PRAC_CUSTBOOK_SRV.Booking" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <AssociationSet Name="Customer_to_BookingSet" Association="ZGW_PRAC_CUSTBOOK_SRV.Customer_to_Booking" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="CustomerSet" Role="FromRole_Customer_to_Booking"/>
+                    <End EntitySet="BookingSet" Role="ToRole_Customer_to_Booking"/>
+                </AssociationSet>
+            </EntityContainer>
+            <Annotation Term="Core.SchemaVersion" String="1.0.0" xmlns="http://docs.oasis-open.org/odata/ns/edm"/>
+            <atom:link rel="self" href="http://61.97.134.36:8000/sap/opu/odata/sap/ZGW_PRAC_CUSTBOOK_SRV/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+            <atom:link rel="latest-version" href="http://61.97.134.36:8000/sap/opu/odata/sap/ZGW_PRAC_CUSTBOOK_SRV/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>
