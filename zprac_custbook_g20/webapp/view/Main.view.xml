@@ -4,6 +4,11 @@
     xmlns="sap.m">
     <Page id="page" title="{i18n>title}">
         <content>
+        <Panel id="panCustom" expandable="true" expanded="true" headerText="Custom Panel">
+        <HBox id="hbox1" justifyContent="End">
+            <Input id="inp1" placeholder="Enter Customer Name"></Input>
+            <Button id="search" press="onPress" icon="sap-icon://search" text="Search"></Button>
+        </HBox>
           <Table id="idCustomerTable" 
                  headerText="Data"
                  items="{/CustomerSet}"   
@@ -11,6 +16,7 @@
                  selectionChange="onSelectionChange"
                  growing="true"
                  growingThreshold="5"
+                 class="sapUiSmallMargin"
                  >
                  <!-- {/CustomerSet}  : 절대 경로 바인딩 -->
                  <!-- CustomerSet 데이터를 통째로 테이블에 쏟아부으라는 파이프라인 연결 -->
@@ -31,9 +37,12 @@
                  </items>
             </Table>
 
+            </Panel>
+
             <f:SimpleForm id="idCustomerForm"
                           title="상세 정보"
-                          layout="ResponsiveGridLayout"  
+                          layout="ResponsiveGridLayout"
+                          class="sapUiSmallMargin"  
                         >
                     <f:content>
                         <Label id="lb1" text="고객 번호"></Label>
@@ -45,7 +54,7 @@
                     </f:content>
             </f:SimpleForm>
 
-            <Table id="idBookingTable" headerText="예약 내역" growing="true" growingThreshold="5">
+            <Table id="idBookingTable" headerText="예약 내역" growing="true" growingThreshold="5" class="sapUiSmallMargin">
                 <columns>
                     <Column id="bookCol1"><Text id="booktxt1" text="항공사"></Text></Column>
                     <Column id="bookCol2"><Text id="booktxt2" text="예약번호"></Text></Column>

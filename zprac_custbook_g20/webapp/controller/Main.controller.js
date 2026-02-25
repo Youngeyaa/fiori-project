@@ -1,6 +1,8 @@
 sap.ui.define([
-    "sap/ui/core/mvc/Controller"
-], (Controller) => {
+    "sap/ui/core/mvc/Controller",
+    "sap/ui/model/Filter",
+    "sap/ui/model/FilterOperator"
+], (Controller, Filter, FilterOperator) => {
     "use strict";
 
     return Controller.extend("code.zpraccustbookg20.controller.Main", {
@@ -32,6 +34,25 @@ sap.ui.define([
                 })
 
             })
+
+        },
+
+        onPress(){
+
+            // 검색창에 입력한 글자 가져오기
+            let oInput = this.byId("inp1").getValue();
+
+            let aFilters = [];
+            // 검색어가 입력되었을 때만 필터 조건 만들기
+            if (oInput) {
+                let oFilter = new Filter("Name", FilterOperator.Contains, oInput);
+                aFilters.push(oFilter);
+            }
+
+            // 데이터를 뿌려주고 있는 테이블 
+            let oTable = this.byId("idCustomerTable");
+            let oBinding = oTable.getBinding("items");
+            oBinding.filter(aFilters);
 
         }
 
