@@ -1,6 +1,57 @@
 <mvc:View controllerName="code.zpraccustbookg20.controller.Main"
     xmlns:mvc="sap.ui.core.mvc"
+    xmlns:f="sap.ui.layout.form"   
     xmlns="sap.m">
     <Page id="page" title="{i18n>title}">
+        <content>
+          <Table id="idCustomerTable" 
+                 headerText="Data"
+                 items="{/CustomerSet}"   
+                 mode="SingleSelectMaster"
+                 selectionChange="onSelectionChange"
+                 growing="true"
+                 growingThreshold="5"
+                 >
+                 <!-- {/CustomerSet}  : 절대 경로 바인딩 -->
+                 <!-- CustomerSet 데이터를 통째로 테이블에 쏟아부으라는 파이프라인 연결 -->
+                 <columns>
+                    <Column id="col1"><Text id="coltxt1" text="고객ID"></Text></Column>
+                    <Column id="col2"><Text id="coltxt2" text="고객 이름"></Text></Column>
+                 </columns>
+
+                 <items>
+                    <ColumnListItem id="collist1">
+                        <cells>
+                        <!-- text="{Id}" ... : 상대 경로 바인딩  -->
+                        <!-- 테이블이 이미 {/CustomerSet} 이라는 큰 덩어리를 가지고 있으니까, 그 안에서 Id, Name 데이터만 보여달라는 뜻 -->
+                            <Text id="celltxt1" text="{Id}"/>
+                            <Text id="celltxt2" text="{Name}"/>
+                        </cells>
+                    </ColumnListItem>
+                 </items>
+            </Table>
+
+            <f:SimpleForm id="idCustomerForm"
+                          title="상세 정보"
+                          layout="ResponsiveGridLayout"  
+                        >
+                    <f:content>
+                        <Label id="lb1" text="고객 번호"></Label>
+                        <Text id="ftxt1" text="{Id}"></Text>
+                        <Label id="lb2" text="이름"></Label>
+                        <Text id="ftxt2" text="{Name}"></Text>
+                        <Label id="lb3" text="전화번호"></Label>
+                        <Text id="ftxt3" text="{Telephone}"></Text>
+                    </f:content>
+            </f:SimpleForm>
+
+            <Table id="idBookingTable" headerText="예약 내역" growing="true" growingThreshold="5">
+                <columns>
+                    <Column id="bookCol1"><Text id="booktxt1" text="항공사"></Text></Column>
+                    <Column id="bookCol2"><Text id="booktxt2" text="예약번호"></Text></Column>
+                </columns>
+            </Table>
+
+        </content>
     </Page>
 </mvc:View>
