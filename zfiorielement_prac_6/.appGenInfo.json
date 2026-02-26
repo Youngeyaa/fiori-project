@@ -1,0 +1,28 @@
+{
+  "generationParameters": {
+    "generationDate": "Thu Feb 26 2026 06:21:31 GMT+0000 (Coordinated Universal Time)",
+    "generatorPlatform": "SAP Business Application Studio",
+    "serviceType": "SAP System (ABAP On-Premise)",
+    "metadataFilename": "",
+    "serviceUrl": "http://61.97.134.36:8000/sap/opu/odata/sap/ZCDS_UX403_META_G20_CDS",
+    "appName": "zfiorielement_prac_6",
+    "appTitle": "p.105 exercies 6",
+    "appDescription": "An SAP Fiori application.",
+    "appNamespace": "code",
+    "ui5Theme": "sap_horizon",
+    "ui5Version": "1.120.23",
+    "enableEslint": false,
+    "enableTypeScript": false,
+    "showMockDataInfo": true,
+    "generatorVersion": "1.20.3",
+    "template": "List Report Page V2",
+    "generatorName": "SAP Fiori Application Generator",
+    "entityRelatedConfig": [
+      {
+        "type": "Main Entity",
+        "value": "zcds_ux403_meta_g20"
+      }
+    ],
+    "launchText": "To launch the generated application, run the following from the generated application root folder:\n\n```\n    npm start\n```"
+  }
+}
