@@ -117,7 +117,11 @@
       "forceGlobalRefresh": false,
       "objectPageHeaderType": "Dynamic",
       "considerAnalyticalParameters": true,
-      "showDraftToggle": false
+      "showDraftToggle": false,
+      "flexibleColumnLayout":{
+        "defaultColumnLayoutType" : "TwoColumnMidExpanded",
+        "defaultThreeColumnLayoutType" : "ThreeColumnsEndExapanded"
+      }
     },
     "pages": {
       "ListReport|zcds_cust_g20": {
