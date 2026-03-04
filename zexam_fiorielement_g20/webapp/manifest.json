@@ -13,14 +13,14 @@
     "sourceTemplate": {
       "id": "@sap/generator-fiori:lrop",
       "version": "1.19.5",
-      "toolsId": "9375c50a-34ed-4f5e-be33-2fa79b85fd54"
+      "toolsId": "91263d6b-7f65-4439-b650-91a9dc62e6b3"
     },
     "dataSources": {
-      "ZEX_FLIGHT_G20_CDS_VAN": {
-        "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='ZEX_FLIGHT_G20_CDS_VAN',Version='0001')/$value/",
+      "ZEX_FLIGHTS_G20_CDS_VAN": {
+        "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='ZEX_FLIGHTS_G20_CDS_VAN',Version='0001')/$value/",
         "type": "ODataAnnotation",
         "settings": {
-          "localUri": "localService/mainService/ZEX_FLIGHT_G20_CDS_VAN.xml"
+          "localUri": "localService/mainService/ZEX_FLIGHTS_G20_CDS_VAN.xml"
         }
       },
       "annotation": {
@@ -31,11 +31,11 @@
         }
       },
       "mainService": {
-        "uri": "/sap/opu/odata/sap/ZEX_FLIGHT_G20_CDS/",
+        "uri": "/sap/opu/odata/sap/ZEX_FLIGHTS_G20_CDS/",
         "type": "OData",
         "settings": {
           "annotations": [
-            "ZEX_FLIGHT_G20_CDS_VAN",
+            "ZEX_FLIGHTS_G20_CDS_VAN",
             "annotation"
           ],
           "localUri": "localService/mainService/metadata.xml",
@@ -120,8 +120,8 @@
       "showDraftToggle": false
     },
     "pages": {
-      "ListReport|ZEX_FLIGHT_G20": {
-        "entitySet": "ZEX_FLIGHT_G20",
+      "ListReport|ZEX_FLIGHTS_G20": {
+        "entitySet": "ZEX_FLIGHTS_G20",
         "component": {
           "name": "sap.suite.ui.generic.template.ListReport",
           "list": true,
@@ -140,8 +140,8 @@
           }
         },
         "pages": {
-          "ObjectPage|ZEX_FLIGHT_G20": {
-            "entitySet": "ZEX_FLIGHT_G20",
+          "ObjectPage|ZEX_FLIGHTS_G20": {
+            "entitySet": "ZEX_FLIGHTS_G20",
             "defaultLayoutTypeIfExternalNavigation": "MidColumnFullScreen",
             "component": {
               "name": "sap.suite.ui.generic.template.ObjectPage"

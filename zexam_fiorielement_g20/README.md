@@ -1,22 +1,22 @@
 ## Application Details
 |               |
 | ------------- |
-|**Generation Date and Time**<br>Wed Mar 04 2026 09:54:44 GMT+0900 (Korean Standard Time)|
+|**Generation Date and Time**<br>Wed Mar 04 2026 10:58:54 GMT+0900 (Korean Standard Time)|
 |**App Generator**<br>SAP Fiori Application Generator|
 |**App Generator Version**<br>1.19.5|
 |**Generation Platform**<br>Visual Studio Code|
 |**Template Used**<br>List Report Page V2|
 |**Service Type**<br>SAP System (ABAP On-Premise)|
-|**Service URL**<br>http://61.97.134.36:8000/sap/opu/odata/sap/ZEX_FLIGHT_G20_CDS|
+|**Service URL**<br>http://61.97.134.36:8000/sap/opu/odata/sap/ZEX_FLIGHTS_G20_CDS|
 |**Module Name**<br>zexam_fiorielement_g20|
-|**Application Title**<br>App Title|
+|**Application Title**<br>Zexam|
 |**Namespace**<br>code|
 |**UI5 Theme**<br>sap_horizon|
 |**UI5 Version**<br>1.120.23|
 |**Enable Code Assist Libraries**<br>False|
 |**Enable TypeScript**<br>False|
 |**Add Eslint configuration**<br>False|
-|**Main Entity**<br>ZEX_FLIGHT_G20|
+|**Main Entity**<br>ZEX_FLIGHTS_G20|
 
 ## zexam_fiorielement_g20
 

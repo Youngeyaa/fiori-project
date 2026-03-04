@@ -35,10 +35,10 @@ server:
       configuration:
         mountPath: /
         services:
-          - urlPath: /sap/opu/odata/sap/ZEX_FLIGHT_G20_CDS
+          - urlPath: /sap/opu/odata/sap/ZEX_FLIGHTS_G20_CDS
             metadataPath: ./webapp/localService/mainService/metadata.xml
             mockdataPath: ./webapp/localService/mainService/data
             generateMockData: true
         annotations:
-          - localPath: ./webapp/localService/mainService/ZEX_FLIGHT_G20_CDS_VAN.xml
-            urlPath: /sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='ZEX_FLIGHT_G20_CDS_VAN',Version='0001')/$value/
+          - localPath: ./webapp/localService/mainService/ZEX_FLIGHTS_G20_CDS_VAN.xml
+            urlPath: /sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='ZEX_FLIGHTS_G20_CDS_VAN',Version='0001')/$value/

@@ -31,8 +31,8 @@
         <edmx:Include Namespace="Org.OData.Validation.V1" Alias="Validation"/>
     </edmx:Reference>
     <edmx:DataServices m:DataServiceVersion="2.0">
-        <Schema Namespace="ZEX_FLIGHT_G20_CDS" xml:lang="en" sap:schema-version="1" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
-            <EntityType Name="ZEX_FLIGHT_G20Type" sap:label="Flight Schedule" sap:content-version="1">
+        <Schema Namespace="ZEX_FLIGHTS_G20_CDS" xml:lang="en" sap:schema-version="1" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+            <EntityType Name="ZEX_FLIGHTS_G20Type" sap:label="Flight Connection" sap:content-version="1">
                 <Key>
                     <PropertyRef Name="Carrid"/>
                     <PropertyRef Name="Connid"/>
@@ -53,15 +53,15 @@
                 <Property Name="Fltype" Type="Edm.String" MaxLength="1" sap:display-format="UpperCase" sap:label="Charter flt" sap:quickinfo="Flight type"/>
                 <Property Name="Period" Type="Edm.Byte" sap:label="n day(s) later" sap:quickinfo="Arrival n day(s) later"/>
             </EntityType>
-            <EntityContainer Name="ZEX_FLIGHT_G20_CDS_Entities" m:IsDefaultEntityContainer="true" sap:message-scope-supported="true" sap:supported-formats="atom json xlsx">
-                <EntitySet Name="ZEX_FLIGHT_G20" EntityType="ZEX_FLIGHT_G20_CDS.ZEX_FLIGHT_G20Type" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"/>
+            <EntityContainer Name="ZEX_FLIGHTS_G20_CDS_Entities" m:IsDefaultEntityContainer="true" sap:message-scope-supported="true" sap:supported-formats="atom json xlsx">
+                <EntitySet Name="ZEX_FLIGHTS_G20" EntityType="ZEX_FLIGHTS_G20_CDS.ZEX_FLIGHTS_G20Type" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"/>
             </EntityContainer>
             <Annotation Term="Core.SchemaVersion" String="1.0.0" xmlns="http://docs.oasis-open.org/odata/ns/edm"/>
-            <Annotations Target="ZEX_FLIGHT_G20_CDS.ZEX_FLIGHT_G20_CDS_Entities" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+            <Annotations Target="ZEX_FLIGHTS_G20_CDS.ZEX_FLIGHTS_G20_CDS_Entities" xmlns="http://docs.oasis-open.org/odata/ns/edm">
                 <Annotation Term="Common.ApplyMultiUnitBehaviorForSortingAndFiltering" Bool="true"/>
             </Annotations>
-            <atom:link rel="self" href="http://61.97.134.36:8000/sap/opu/odata/sap/ZEX_FLIGHT_G20_CDS/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
-            <atom:link rel="latest-version" href="http://61.97.134.36:8000/sap/opu/odata/sap/ZEX_FLIGHT_G20_CDS/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+            <atom:link rel="self" href="http://61.97.134.36:8000/sap/opu/odata/sap/ZEX_FLIGHTS_G20_CDS/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+            <atom:link rel="latest-version" href="http://61.97.134.36:8000/sap/opu/odata/sap/ZEX_FLIGHTS_G20_CDS/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
         </Schema>
     </edmx:DataServices>
 </edmx:Edmx>
