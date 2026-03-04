@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:sap="http://www.sap.com/Protocols/SAPData">
+    <edmx:Reference Uri="http://61.97.134.36:8000/sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_AGGREGATION',Version='0001',SAP__Origin='LOCAL')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="Org.OData.Aggregation.V1" Alias="Aggregation"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="http://61.97.134.36:8000/sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_ANALYTICS',Version='0001',SAP__Origin='LOCAL')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="com.sap.vocabularies.Analytics.v1" Alias="Analytics"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="http://61.97.134.36:8000/sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_CAPABILITIES',Version='0001',SAP__Origin='LOCAL')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="Org.OData.Capabilities.V1" Alias="Capabilities"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="http://61.97.134.36:8000/sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_CODELIST',Version='0001',SAP__Origin='LOCAL')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="com.sap.vocabularies.CodeList.v1" Alias="SAP__CodeList"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="http://61.97.134.36:8000/sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_COMMON',Version='0001',SAP__Origin='LOCAL')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="com.sap.vocabularies.Common.v1" Alias="Common"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="http://61.97.134.36:8000/sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_COMMUNICATION',Version='0001',SAP__Origin='LOCAL')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="com.sap.vocabularies.Communication.v1" Alias="Communication"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="http://61.97.134.36:8000/sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_MEASURES',Version='0001',SAP__Origin='LOCAL')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="Org.OData.Measures.V1" Alias="Measures"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="http://61.97.134.36:8000/sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_PERSONALDATA',Version='0001',SAP__Origin='LOCAL')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="com.sap.vocabularies.PersonalData.v1" Alias="PersonalData"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="http://61.97.134.36:8000/sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_UI',Version='0001',SAP__Origin='LOCAL')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="com.sap.vocabularies.UI.v1" Alias="UI"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="http://61.97.134.36:8000/sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_VALIDATION',Version='0001',SAP__Origin='LOCAL')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="Org.OData.Validation.V1" Alias="Validation"/>
+    </edmx:Reference>
+    <edmx:DataServices m:DataServiceVersion="2.0">
+        <Schema Namespace="ZCDS_CUST_G20_CDS" xml:lang="en" sap:schema-version="1" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+            <EntityType Name="zcds_book_g20Type" sap:label="Flight booking" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Carrid"/>
+                    <PropertyRef Name="Connid"/>
+                    <PropertyRef Name="Fldate"/>
+                    <PropertyRef Name="Bookid"/>
+                </Key>
+                <Property Name="Carrid" Type="Edm.String" Nullable="false" MaxLength="3" sap:display-format="UpperCase" sap:label="Airline" sap:quickinfo="Airline Code"/>
+                <Property Name="Connid" Type="Edm.String" Nullable="false" MaxLength="4" sap:display-format="NonNegative" sap:label="Connection Number" sap:quickinfo="Flight Connection Number"/>
+                <Property Name="Fldate" Type="Edm.DateTime" Nullable="false" Precision="0" sap:display-format="Date" sap:label="Flight Date" sap:quickinfo="Flight date"/>
+                <Property Name="Bookid" Type="Edm.String" Nullable="false" MaxLength="8" sap:display-format="NonNegative" sap:label="Booking number"/>
+                <Property Name="Customid" Type="Edm.String" MaxLength="8" sap:display-format="NonNegative" sap:label="Customer Number"/>
+                <Property Name="Custtype" Type="Edm.String" MaxLength="1" sap:display-format="UpperCase" sap:label="B/P customer" sap:quickinfo="Customer type"/>
+                <Property Name="Smoker" Type="Edm.String" MaxLength="1" sap:display-format="UpperCase" sap:label="Smoker"/>
+                <Property Name="Luggweight" Type="Edm.Decimal" Precision="8" Scale="4" sap:unit="Wunit" sap:label="Luggage Weight" sap:quickinfo="Weight of Luggage"/>
+                <Property Name="Wunit" Type="Edm.String" MaxLength="3" sap:label="Unit of Measurement" sap:quickinfo="Unit of Weight" sap:semantics="unit-of-measure"/>
+                <Property Name="Invoice" Type="Edm.Boolean" sap:label="Invoice flag"/>
+                <Property Name="Class" Type="Edm.String" MaxLength="1" sap:display-format="UpperCase" sap:label="Class" sap:quickinfo="Flight Class"/>
+                <Property Name="Cancelled" Type="Edm.String" MaxLength="1" sap:display-format="UpperCase" sap:label="Cancelation flag"/>
+                <Property Name="Discount" Type="Edm.String" MaxLength="3" sap:display-format="NonNegative" sap:label="Discount (%)" sap:quickinfo="Discount rate"/>
+            </EntityType>
+            <EntityType Name="zcds_chart_g20Type" sap:semantics="aggregate" sap:label="Chart" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="ID" Type="Edm.String" Nullable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Customid" Type="Edm.String" MaxLength="8" sap:aggregation-role="dimension" sap:display-format="NonNegative" sap:label="Customer Number"/>
+                <Property Name="Carrid" Type="Edm.String" MaxLength="3" sap:aggregation-role="dimension" sap:display-format="UpperCase" sap:label="Airline" sap:quickinfo="Airline Code"/>
+                <Property Name="Total" Type="Edm.Int32" sap:aggregation-role="measure" sap:filterable="false"/>
+            </EntityType>
+            <EntityType Name="zcds_cust_g20Type" sap:label="Flight Customer" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Id"/>
+                </Key>
+                <Property Name="Id" Type="Edm.String" Nullable="false" MaxLength="8" sap:display-format="NonNegative" sap:label="Customer Number"/>
+                <Property Name="Name" Type="Edm.String" MaxLength="25" sap:label="Customer name"/>
+                <Property Name="Form" Type="Edm.String" MaxLength="15" sap:label="Form of address"/>
+                <Property Name="Street" Type="Edm.String" MaxLength="30" sap:label="Street"/>
+                <Property Name="Postbox" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="PO Box"/>
+                <Property Name="Postcode" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="Postal Code"/>
+                <Property Name="City" Type="Edm.String" MaxLength="25" sap:label="City"/>
+                <Property Name="Country" Type="Edm.String" MaxLength="3" sap:display-format="UpperCase" sap:label="Country/Region" sap:quickinfo="Country Code" sap:value-list="standard"/>
+                <Property Name="Region" Type="Edm.String" MaxLength="3" sap:display-format="UpperCase" sap:label="Region"/>
+                <Property Name="Telephone" Type="Edm.String" MaxLength="30" sap:display-format="UpperCase" sap:label="Tel. no." sap:quickinfo="Telephone number of flight customer"/>
+                <Property Name="Custtype" Type="Edm.String" MaxLength="1" sap:display-format="UpperCase" sap:label="B/P customer" sap:quickinfo="Customer type"/>
+                <Property Name="Discount" Type="Edm.String" MaxLength="3" sap:display-format="NonNegative" sap:label="Discount (%)" sap:quickinfo="Discount rate"/>
+                <NavigationProperty Name="to_Booking" Relationship="ZCDS_CUST_G20_CDS.assoc_074964EB6BB80A5896908A619405B585" FromRole="FromRole_assoc_074964EB6BB80A5896908A619405B585" ToRole="ToRole_assoc_074964EB6BB80A5896908A619405B585"/>
+                <NavigationProperty Name="to_Chart" Relationship="ZCDS_CUST_G20_CDS.assoc_699A4587B691DFE98A01DC45CFA60093" FromRole="FromRole_assoc_699A4587B691DFE98A01DC45CFA60093" ToRole="ToRole_assoc_699A4587B691DFE98A01DC45CFA60093"/>
+                <NavigationProperty Name="to_Country" Relationship="ZCDS_CUST_G20_CDS.assoc_6BFF7E3F60C03DEBBCE1B52729AFEFEE" FromRole="FromRole_assoc_6BFF7E3F60C03DEBBCE1B52729AFEFEE" ToRole="ToRole_assoc_6BFF7E3F60C03DEBBCE1B52729AFEFEE"/>
+            </EntityType>
+            <EntityType Name="zvh_country_g20Type" sap:label="Value Help Country" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Country"/>
+                </Key>
+                <Property Name="Country" Type="Edm.String" Nullable="false" MaxLength="3" sap:display-format="UpperCase" sap:label="Country/Region Key"/>
+                <Property Name="CountryName" Type="Edm.String" MaxLength="50" sap:label="Country/Region Name"/>
+            </EntityType>
+            <Association Name="assoc_699A4587B691DFE98A01DC45CFA60093" sap:content-version="1">
+                <End Type="ZCDS_CUST_G20_CDS.zcds_cust_g20Type" Multiplicity="1" Role="FromRole_assoc_699A4587B691DFE98A01DC45CFA60093"/>
+                <End Type="ZCDS_CUST_G20_CDS.zcds_chart_g20Type" Multiplicity="*" Role="ToRole_assoc_699A4587B691DFE98A01DC45CFA60093"/>
+            </Association>
+            <Association Name="assoc_6BFF7E3F60C03DEBBCE1B52729AFEFEE" sap:content-version="1">
+                <End Type="ZCDS_CUST_G20_CDS.zcds_cust_g20Type" Multiplicity="1" Role="FromRole_assoc_6BFF7E3F60C03DEBBCE1B52729AFEFEE"/>
+                <End Type="ZCDS_CUST_G20_CDS.zvh_country_g20Type" Multiplicity="1" Role="ToRole_assoc_6BFF7E3F60C03DEBBCE1B52729AFEFEE"/>
+            </Association>
+            <Association Name="assoc_074964EB6BB80A5896908A619405B585" sap:content-version="1">
+                <End Type="ZCDS_CUST_G20_CDS.zcds_cust_g20Type" Multiplicity="1" Role="FromRole_assoc_074964EB6BB80A5896908A619405B585"/>
+                <End Type="ZCDS_CUST_G20_CDS.zcds_book_g20Type" Multiplicity="*" Role="ToRole_assoc_074964EB6BB80A5896908A619405B585"/>
+            </Association>
+            <EntityContainer Name="ZCDS_CUST_G20_CDS_Entities" m:IsDefaultEntityContainer="true" sap:message-scope-supported="true" sap:supported-formats="atom json xlsx">
+                <EntitySet Name="zcds_book_g20" EntityType="ZCDS_CUST_G20_CDS.zcds_book_g20Type" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"/>
+                <EntitySet Name="zcds_chart_g20" EntityType="ZCDS_CUST_G20_CDS.zcds_chart_g20Type" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"/>
+                <EntitySet Name="zcds_cust_g20" EntityType="ZCDS_CUST_G20_CDS.zcds_cust_g20Type" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:searchable="true" sap:content-version="1"/>
+                <EntitySet Name="zvh_country_g20" EntityType="ZCDS_CUST_G20_CDS.zvh_country_g20Type" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"/>
+                <AssociationSet Name="assoc_074964EB6BB80A5896908A619405B585" Association="ZCDS_CUST_G20_CDS.assoc_074964EB6BB80A5896908A619405B585" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="zcds_cust_g20" Role="FromRole_assoc_074964EB6BB80A5896908A619405B585"/>
+                    <End EntitySet="zcds_book_g20" Role="ToRole_assoc_074964EB6BB80A5896908A619405B585"/>
+                </AssociationSet>
+                <AssociationSet Name="assoc_699A4587B691DFE98A01DC45CFA60093" Association="ZCDS_CUST_G20_CDS.assoc_699A4587B691DFE98A01DC45CFA60093" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="zcds_cust_g20" Role="FromRole_assoc_699A4587B691DFE98A01DC45CFA60093"/>
+                    <End EntitySet="zcds_chart_g20" Role="ToRole_assoc_699A4587B691DFE98A01DC45CFA60093"/>
+                </AssociationSet>
+                <AssociationSet Name="assoc_6BFF7E3F60C03DEBBCE1B52729AFEFEE" Association="ZCDS_CUST_G20_CDS.assoc_6BFF7E3F60C03DEBBCE1B52729AFEFEE" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="zcds_cust_g20" Role="FromRole_assoc_6BFF7E3F60C03DEBBCE1B52729AFEFEE"/>
+                    <End EntitySet="zvh_country_g20" Role="ToRole_assoc_6BFF7E3F60C03DEBBCE1B52729AFEFEE"/>
+                </AssociationSet>
+            </EntityContainer>
+            <Annotation Term="Core.SchemaVersion" String="1.0.0" xmlns="http://docs.oasis-open.org/odata/ns/edm"/>
+            <Annotations Target="ZCDS_CUST_G20_CDS.zcds_cust_g20Type/Country" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="Common.ValueList">
+                    <Record>
+                        <PropertyValue Property="Label" String="Value Help Country"/>
+                        <PropertyValue Property="CollectionPath" String="zvh_country_g20"/>
+                        <PropertyValue Property="SearchSupported" Bool="false"/>
+                        <PropertyValue Property="Parameters">
+                            <Collection>
+                                <Record Type="Common.ValueListParameterInOut">
+                                    <PropertyValue Property="LocalDataProperty" PropertyPath="Country"/>
+                                    <PropertyValue Property="ValueListProperty" String="Country"/>
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="CountryName"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="ZCDS_CUST_G20_CDS.ZCDS_CUST_G20_CDS_Entities" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="Common.ApplyMultiUnitBehaviorForSortingAndFiltering" Bool="true"/>
+            </Annotations>
+            <Annotations Target="ZCDS_CUST_G20_CDS.ZCDS_CUST_G20_CDS_Entities/zcds_chart_g20" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="Capabilities.FilterRestrictions">
+                    <Record>
+                        <PropertyValue Property="NonFilterableProperties">
+                            <Collection>
+                                <PropertyPath>ID</PropertyPath>
+                                <PropertyPath>Total</PropertyPath>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Capabilities.SortRestrictions">
+                    <Record>
+                        <PropertyValue Property="NonSortableProperties">
+                            <Collection>
+                                <PropertyPath>ID</PropertyPath>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="ZCDS_CUST_G20_CDS.ZCDS_CUST_G20_CDS_Entities/zcds_cust_g20" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="Capabilities.NavigationRestrictions">
+                    <Record>
+                        <PropertyValue Property="RestrictedProperties">
+                            <Collection>
+                                <Record>
+                                    <PropertyValue Property="NavigationProperty" NavigationPropertyPath="to_Booking"/>
+                                    <PropertyValue Property="InsertRestrictions">
+                                        <Record>
+                                            <PropertyValue Property="Insertable" Bool="false"/>
+                                        </Record>
+                                    </PropertyValue>
+                                </Record>
+                                <Record>
+                                    <PropertyValue Property="NavigationProperty" NavigationPropertyPath="to_Chart"/>
+                                    <PropertyValue Property="InsertRestrictions">
+                                        <Record>
+                                            <PropertyValue Property="Insertable" Bool="false"/>
+                                        </Record>
+                                    </PropertyValue>
+                                </Record>
+                                <Record>
+                                    <PropertyValue Property="NavigationProperty" NavigationPropertyPath="to_Country"/>
+                                    <PropertyValue Property="InsertRestrictions">
+                                        <Record>
+                                            <PropertyValue Property="Insertable" Bool="false"/>
+                                        </Record>
+                                    </PropertyValue>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <atom:link rel="self" href="http://61.97.134.36:8000/sap/opu/odata/sap/ZCDS_CUST_G20_CDS/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+            <atom:link rel="latest-version" href="http://61.97.134.36:8000/sap/opu/odata/sap/ZCDS_CUST_G20_CDS/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>
