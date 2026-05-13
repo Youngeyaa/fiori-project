@@ -1,0 +1,217 @@
+AT SELECTION-SCREEN ON VALUE-REQUEST FOR S_CONTNO-LOW.
+
+  " 1. ★ 서치헬프 팝업에 띄울 딱 두 개의 필드만 갖는 전용 타입을 만듭니다.
+  TYPES: BEGIN OF TY_SHLP_CONT,
+           CONTNO TYPE ZTG2SD0006-CONTNO,
+           CUSTID TYPE ZTG2SD0006-CUSTID,
+         END OF TY_SHLP_CONT.
+
+  " 2. ★ 위에서 만든 전용 타입으로 인터널 테이블을 선언합니다.
+  DATA: LT_CONT   TYPE TABLE OF TY_SHLP_CONT,  
+        LT_RETURN TYPE TABLE OF DDSHRETVAL,
+        LS_RETURN TYPE DDSHRETVAL.
+
+  " 3. 필요한 두 개의 데이터만 가져옵니다. (STATUS 제외)
+  SELECT CONTNO, CUSTID
+    INTO CORRESPONDING FIELDS OF TABLE @LT_CONT
+    FROM ZTG2SD0006.
+
+  " 4. 서치헬프 호출 (이제 LT_CONT 구조대로 2칸만 예쁘게 나옵니다!)
+  CALL FUNCTION 'F4IF_INT_TABLE_VALUE_REQUEST'
+    EXPORTING
+      RETFIELD    = 'CONTNO'
+      VALUE_ORG   = 'S'
+    TABLES
+      VALUE_TAB   = LT_CONT
+      RETURN_TAB  = LT_RETURN.
+
+  READ TABLE LT_RETURN INTO LS_RETURN INDEX 1.
+  IF SY-SUBRC = 0.
+    S_CONTNO-LOW    = LS_RETURN-FIELDVAL.
+    S_CONTNO-SIGN   = 'I'.
+    S_CONTNO-OPTION = 'EQ'.
+    APPEND S_CONTNO.
+  ENDIF.
+
+
+
+
+
+
+
+
+
+
+
+
+" =========================================================
+  " ★ [보너스] 조회 후 1번째 고객 자동 클릭(디스플레이) 효과
+  " =========================================================
+  IF GT_CUST_LIST[] IS NOT INITIAL.
+    READ TABLE GT_CUST_LIST INTO GS_CUST_LIST INDEX 1. " 첫 번째 고객 읽기
+    
+    " 우측 헤더 채우기
+    CLEAR GT_CONT_H_DISP.
+    LOOP AT GT_CONT_H INTO GS_CONT_H WHERE CUSTID = GS_CUST_LIST-CUSTID.
+      APPEND GS_CONT_H TO GT_CONT_H_DISP.
+    ENDLOOP.
+
+    " 우측 아이템 채우기
+    CLEAR GT_CONT_D_DISP.
+    LOOP AT GT_CONT_H_DISP INTO GS_CONT_H.
+      LOOP AT GT_CONT_D INTO GS_CONT_D WHERE CONTNO = GS_CONT_H-CONTNO.
+        APPEND GS_CONT_D TO GT_CONT_D_DISP.
+      ENDLOOP.
+    ENDLOOP.
+    
+    " 헤더 타이틀 동적 변경 (이전 질문에서 적용한 부분)
+    IF GO_ALV_CONT_H IS NOT INITIAL.
+      GS_LAYOUT_CONT_H-GRID_TITLE = |구독계약 헤더 - { GS_CUST_LIST-CUSTNM }({ GS_CUST_LIST-CUSTID })|.
+    ENDIF.
+  ENDIF.
+  " =========================================================
+
+
+
+
+=========================================================================
+
+이름 ZGWG2SD0001로 SEGW 프로젝트 생성했어. 처음부터 차근차근 알려줘. 그리고 승인 버튼 누를 때 
+
+
+ 계약을 체결하는 시점에 판매 오더 (1회차)가 생성되면서 이미
+고객이 구독료를 지불 했다고 가정하기 때문에 매출전표를 판매 오더를 생성함과
+동시에 발행할 수 있도록 데이터를 넘겨주는 게 좋겠다고 하네. 
+SAPMZG2SD0003과  스케줄링 잡 프로그램인 ZRG2SD0013 에서 판매 오더를 생성하니깐
+저 프로그램에 전표발행용 데이터를 넘겨주는 로직을 추가하면 되겠지? 
+
+
+그러니깐 판매 승인 프로그램에선 매출전표 발행을 위한 데이터 삽입이 필요없을 거 같아. 
+
+
+
+==============================================================================
+
+
+
+네 정확해요! 정리하면 이렇네요.
+
+---
+
+## 확정된 구조
+
+```
+기존 생각)
+  승인 시 → 전표 발행
+
+변경된 구조)
+  판매 오더 생성 시 → 즉시 전표 발행
+  (고객이 구독료를 이미 지불했다고 가정)
+
+이유)
+  승인은 내부 처리용
+  구독료는 계약 시점에 이미 결제 완료
+  → 오더 생성 = 매출 확정
+```
+
+---
+
+## 수정 대상 프로그램 2개
+
+```
+1. SAPMZG2SD0003 (계약 등록))
+   SAVE_CONTRACT_DATA에서
+   ORDER_H/D INSERT 후
+   → FI 전표 데이터 넘겨주는 로직 추가
+
+2. ZRG2SD0003_JOB (스케줄링잡))
+   ORDER_H/D INSERT 후
+   → FI 전표 데이터 넘겨주는 로직 추가
+```
+
+---
+
+## 이다훈한테 확인해야 할 것
+
+```
+1. 데이터 넘겨주는 방식)
+   A. Function Module 호출
+      → 권용범이 FM 직접 호출
+   B. 중간 테이블 INSERT
+      → 이다훈이 해당 테이블 READ
+
+2. 필요한 필드)
+   최소한 아래는 필요할 것으로 예상)
+     ORDNO    주문번호
+     CUSTID   고객ID
+     CONTNO   계약번호
+     ORDDT    주문일
+     TOTAMT   총금액
+     CURRENCY 통화
+     PAYMCD   결제수단
+     ORDSEQ   회차
+
+3. 전표 유형 / 계정코드)
+   이건 FI 담당자가 결정해야 함
+```
+
+---
+
+## 결론
+
+```
+지금 당장 이다훈한테 확인할 것)
+  방식 A vs B 결정
+  필요한 필드 목록 확정
+  전표 유형 / 계정 정보
+
+확정되면)
+  SAPMZG2SD0003 SAVE_CONTRACT_DATA
+  ZRG2SD0003_JOB LOOP 안
+  두 군데에 동일한 로직 추가하면 끝이에요!
+```
+
+이다훈이랑 협의 후 방식 확정되면 바로 코드 작성해드릴게요!
+
+
+전표헤더테이블 ( ZTG2FI002) 
+
+DOCNO  PROD
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
