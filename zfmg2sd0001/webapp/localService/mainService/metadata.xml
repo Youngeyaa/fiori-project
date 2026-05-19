@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:sap="http://www.sap.com/Protocols/SAPData">
+    <edmx:DataServices m:DataServiceVersion="2.0">
+        <Schema Namespace="ZGWG2SD0001_SRV" xml:lang="en" sap:schema-version="1" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+            <EntityType Name="SalesOrderHeader" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Ordno"/>
+                </Key>
+                <Property Name="Ordno" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="판매번호" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Custid" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="고객ID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Contno" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="계약번호" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Paymcd" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="결제유형코드" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Orddt" Type="Edm.DateTime" Nullable="false" Precision="7" sap:unicode="false" sap:label="주문일" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Reqdt" Type="Edm.DateTime" Nullable="false" Precision="7" sap:unicode="false" sap:label="배송요청일" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Totamt" Type="Edm.Decimal" Nullable="false" Precision="14" Scale="3" sap:unicode="false" sap:unit="Currency" sap:label="총금액" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Currency" Type="Edm.String" Nullable="false" MaxLength="5" sap:unicode="false" sap:label="통화" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false" sap:semantics="currency-code"/>
+                <Property Name="Ordseq" Type="Edm.String" Nullable="false" MaxLength="3" sap:unicode="false" sap:label="회차" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Ordsts" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="주문상태" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <NavigationProperty Name="SalesOrderItemSet" Relationship="ZGWG2SD0001_SRV.OrderHeader_to_Items" FromRole="FromRole_OrderHeader_to_Items" ToRole="ToRole_OrderHeader_to_Items"/>
+            </EntityType>
+            <EntityType Name="SalesOrderItem" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Ordno"/>
+                    <PropertyRef Name="Packcd"/>
+                </Key>
+                <Property Name="Ordno" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="판매번호" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Packcd" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="패키지코드" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Packym" Type="Edm.String" Nullable="false" MaxLength="6" sap:unicode="false" sap:label="패키지구성년월" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Qty" Type="Edm.Decimal" Nullable="false" Precision="13" Scale="0" sap:unicode="false" sap:unit="Unitcd" sap:label="수량" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Unitcd" Type="Edm.String" Nullable="false" MaxLength="3" sap:unicode="false" sap:label="단위코드" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false" sap:semantics="unit-of-measure"/>
+                <Property Name="Price" Type="Edm.Decimal" Nullable="false" Precision="14" Scale="3" sap:unicode="false" sap:unit="Currency" sap:label="가격" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Ptotamt" Type="Edm.Decimal" Nullable="false" Precision="14" Scale="3" sap:unicode="false" sap:unit="Currency" sap:label="패키지별총금액" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Currency" Type="Edm.String" Nullable="false" MaxLength="5" sap:unicode="false" sap:label="통화" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false" sap:semantics="currency-code"/>
+            </EntityType>
+            <Association Name="OrderHeader_to_Items" sap:content-version="1">
+                <End Type="ZGWG2SD0001_SRV.SalesOrderHeader" Multiplicity="1" Role="FromRole_OrderHeader_to_Items"/>
+                <End Type="ZGWG2SD0001_SRV.SalesOrderItem" Multiplicity="*" Role="ToRole_OrderHeader_to_Items"/>
+                <ReferentialConstraint>
+                    <Principal Role="FromRole_OrderHeader_to_Items">
+                        <PropertyRef Name="Ordno"/>
+                    </Principal>
+                    <Dependent Role="ToRole_OrderHeader_to_Items">
+                        <PropertyRef Name="Ordno"/>
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
+            <EntityContainer Name="ZGWG2SD0001_SRV_Entities" m:IsDefaultEntityContainer="true" sap:supported-formats="atom json xlsx">
+                <EntitySet Name="SalesOrderHeaderSet" EntityType="ZGWG2SD0001_SRV.SalesOrderHeader" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <EntitySet Name="SalesOrderItemSet" EntityType="ZGWG2SD0001_SRV.SalesOrderItem" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <AssociationSet Name="OrderHeader_to_ItemsSet" Association="ZGWG2SD0001_SRV.OrderHeader_to_Items" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="SalesOrderHeaderSet" Role="FromRole_OrderHeader_to_Items"/>
+                    <End EntitySet="SalesOrderItemSet" Role="ToRole_OrderHeader_to_Items"/>
+                </AssociationSet>
+            </EntityContainer>
+            <Annotation Term="Core.SchemaVersion" String="1.0.0" xmlns="http://docs.oasis-open.org/odata/ns/edm"/>
+            <atom:link rel="self" href="http://61.97.134.36:8000/sap/opu/odata/sap/ZGWG2SD0001_SRV/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+            <atom:link rel="latest-version" href="http://61.97.134.36:8000/sap/opu/odata/sap/ZGWG2SD0001_SRV/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>
