@@ -1,6 +1,55 @@
-<mvc:View controllerName="code.zfmg2sd0001.controller.view"
+<mvc:View
+    controllerName="code.zfmg2sd0001.controller.view"
     xmlns:mvc="sap.ui.core.mvc"
-    xmlns="sap.m">
-    <Page id="page" title="{i18n>title}">
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core">
+
+    <Page id="page" title="판매 헤더 관리">
+        <content>
+            <Table id="headerTable" 
+                   items="{/SalesOrderHeaderSet}" 
+                   sticky="HeaderToolbar,ColumnHeaders"
+                   mode="MultiSelect"
+                   class="sapUiSmallMargin">
+                
+                <headerToolbar>
+                    <OverflowToolbar id="oft1">
+                        <Title id="t1" text="판매 오더 목록" level="H2"/>
+                        <ToolbarSpacer id="ts1" />
+                        <Button id="btnApprove" text="오더 승인" type="Accept" icon="sap-icon://accept" press="onApprove"/>
+                        <Button id="btnRefresh" icon="sap-icon://refresh" press="onRefresh"/>
+                    </OverflowToolbar>
+                </headerToolbar>
+
+                <columns>
+                    <Column id="colStatus" width="6em"><Text id="t2" text="상태"/></Column>
+                    <Column id="colOrdno"><Text id="t3" text="오더 번호"/></Column>
+                    <Column id="colCustid"><Text id="t4" text="고객 ID"/></Column>
+                    <Column id="colOrdseq" minScreenWidth="Tablet" demandPopin="true"><Text id="t5" text="회차"/></Column>
+                    <Column id="colAmount"><Text id="t6" text = "총 금액"/></Column>
+                </columns>
+
+                <items>
+                    <ColumnListItem id="colList1">
+                        <cells>
+                            <ObjectStatus id="obj1"
+                                text="{= ${Ordsts} === '2' ? '승인' : '대기' }"
+                                state="{= ${Ordsts} === '2' ? 'Success' : 'Warning' }"
+                                icon="{= ${Ordsts} === '2' ? 'sap-icon://accept' : 'sap-icon://pending' }"/>
+                            
+                            <ObjectIdentifier id="txtOrdno" title="{Ordno}" />
+                            
+                            <Text id="txtCustid" text="{Custid}"/>
+                            
+                            <Text id="txtOrdseq" text="{Ordseq}"/>
+                            
+                            <ObjectNumber id="txtAmount" 
+                                          number="{Totamt}" 
+                                          unit="{Currency}" />
+                        </cells>
+                    </ColumnListItem>
+                </items>
+            </Table>
+        </content>
     </Page>
 </mvc:View>
