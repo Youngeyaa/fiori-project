@@ -6,17 +6,24 @@
 
     <Page id="page" title="판매 헤더 관리">
         <content>
-            <Table id="headerTable" 
-                   items="{/SalesOrderHeaderSet}" 
+            <!-- 판매오더 목록 테이블 -->
+            <Table id="headerTable"
+                   items="{/SalesOrderHeaderSet}"
                    sticky="HeaderToolbar,ColumnHeaders"
-                   mode="MultiSelect"
+                   mode="SingleSelectMaster"
+                   selectionChange="onOrderSelect"
                    class="sapUiSmallMargin">
-                
+
                 <headerToolbar>
                     <OverflowToolbar id="oft1">
                         <Title id="t1" text="판매 오더 목록" level="H2"/>
                         <ToolbarSpacer id="ts1" />
-                        <Button id="btnApprove" text="오더 승인" type="Accept" icon="sap-icon://accept" press="onApprove"/>
+                        <Button id="btnApprove"
+                                text="오더 승인"
+                                type="Accept"
+                                icon="sap-icon://accept"
+                                press="onApprove"
+                                enabled="{viewModel>/approveEnabled}"/>
                         <Button id="btnRefresh" icon="sap-icon://refresh" press="onRefresh"/>
                     </OverflowToolbar>
                 </headerToolbar>
@@ -26,7 +33,7 @@
                     <Column id="colOrdno"><Text id="t3" text="오더 번호"/></Column>
                     <Column id="colCustid"><Text id="t4" text="고객 ID"/></Column>
                     <Column id="colOrdseq" minScreenWidth="Tablet" demandPopin="true"><Text id="t5" text="회차"/></Column>
-                    <Column id="colAmount"><Text id="t6" text = "총 금액"/></Column>
+                    <Column id="colAmount"><Text id="t6" text="총 금액"/></Column>
                 </columns>
 
                 <items>
@@ -36,20 +43,56 @@
                                 text="{= ${Ordsts} === '2' ? '승인' : '대기' }"
                                 state="{= ${Ordsts} === '2' ? 'Success' : 'Warning' }"
                                 icon="{= ${Ordsts} === '2' ? 'sap-icon://accept' : 'sap-icon://pending' }"/>
-                            
                             <ObjectIdentifier id="txtOrdno" title="{Ordno}" />
-                            
                             <Text id="txtCustid" text="{Custid}"/>
-                            
                             <Text id="txtOrdseq" text="{Ordseq}"/>
-                            
-                            <ObjectNumber id="txtAmount" 
-                                          number="{Totamt}" 
-                                          unit="{Currency}" />
+                            <ObjectNumber id="txtAmount" number="{Totamt}" unit="{Currency}" />
                         </cells>
                     </ColumnListItem>
                 </items>
             </Table>
+
+            <!-- 제품 소요 현황 테이블 -->
+            <Table id="mappingTable"
+                   items="{viewModel>/mappingItems}"
+                   sticky="HeaderToolbar,ColumnHeaders"
+                   visible="{viewModel>/mappingVisible}"
+                   class="sapUiSmallMargin">
+
+                <headerToolbar>
+                    <OverflowToolbar id="oft2">
+                        <Title id="t7" text="제품 소요 현황" level="H3"/>
+                    </OverflowToolbar>
+                </headerToolbar>
+
+                <columns>
+                    <Column id="colProdcd"><Text id="t8" text="제품코드"/></Column>
+                    <Column id="colWhscd"><Text id="t9" text="창고코드"/></Column>
+                    <Column id="colQty"><Text id="t10" text="필요수량"/></Column>
+                    <Column id="colShortqty"><Text id="t11" text="부족수량"/></Column>
+                    <Column id="colStksts"><Text id="t12" text="재고상태"/></Column>
+                    <Column id="colAvlqty"><Text id="t13" text="현재재고(실시간)"/></Column>
+                </columns>
+
+                <items>
+                    <ColumnListItem id="colList2"
+                        highlight="{= ${viewModel>Stksts} === 'N' ? 'Error' : 'Success' }">
+                        <cells>
+                            <Text id="txtProdcd" text="{viewModel>Prodcd}"/>
+                            <Text id="txtWhscd" text="{viewModel>Whscd}"/>
+                            <Text id="txtQty" text="{viewModel>Qty}"/>
+                            <Text id="txtShortqty" text="{viewModel>Shortqty}"/>
+                            <ObjectStatus id="objStksts"
+                                text="{= ${viewModel>Stksts} === 'Y' ? '정상' : '부족' }"
+                                state="{= ${viewModel>Stksts} === 'Y' ? 'Success' : 'Error' }"/>
+                            <ObjectNumber id="txtAvlqty"
+                                number="{viewModel>Avlqty}"
+                                state="{= ${viewModel>Stksts} === 'N' ? 'Error' : 'None' }"/>
+                        </cells>
+                    </ColumnListItem>
+                </items>
+            </Table>
+
         </content>
     </Page>
 </mvc:View>
