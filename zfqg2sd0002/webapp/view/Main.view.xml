@@ -1,0 +1,250 @@
+<mvc:View
+    controllerName="code.zfqg2sd0002.controller.Main"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:viz="sap.viz.ui5.controls"
+    xmlns:vizData="sap.viz.ui5.data"
+    xmlns:vizFeeds="sap.viz.ui5.controls.common.feeds">
+
+    <Page id="page" title="패키지 구성현황 조회">
+        <content>
+            <FlexBox id="mainBox"
+                     renderType="Bare"
+                     direction="Column"
+                     class="sapUiSmallMargin">
+                <items>
+
+                    <!-- 검색 필터 -->
+                    <Panel id="filterPanel" headerText="검색 조건" expandable="true" expanded="true">
+                        <content>
+                            <FlexBox id="filterBox" renderType="Bare" wrap="Wrap">
+                                <items>
+                                                            <FlexBox id="fb1" direction="Column" class="sapUiSmallMarginEnd sapUiSmallMarginBottom">
+                                <items>
+                                    <!-- <Label id="lblPackcd" text="패키지 코드" class="sapUiSmallMarginBottom"/> -->
+                                    <Input id="inputPackcd"
+                                        placeholder="패키지 코드"
+                                        width="180px"
+                                        showValueHelp="true"
+                                        valueHelpRequest="onPackcdValueHelp"/>
+                                </items>
+                            </FlexBox>
+
+                                    <FlexBox id="fb2" direction="Column" class="sapUiSmallMarginEnd sapUiSmallMarginBottom">
+                                        <items>
+                                            <!-- <Label id="lblPacknm" text="패키지 명" class="sapUiSmallMarginBottom"/> -->
+                                            <Input id="inputPacknm"
+                                                placeholder="패키지 명"
+                                                width="180px"
+                                                showValueHelp="true"
+                                                valueHelpRequest="onPacknmValueHelp"/>
+                                        </items>
+                                    </FlexBox>
+                                    <FlexBox id="fb3" direction="Column" class="sapUiSmallMarginEnd sapUiSmallMarginBottom">
+                                        <items>
+                                            <!-- <Label id="lblPackymFrom" text="구성년월 From" class="sapUiSmallMarginBottom"/> -->
+                                            <Input id="inputPackymFrom" placeholder="YYYYMM(From)" width="130px"/>
+                                        </items>
+                                    </FlexBox>
+                                    <FlexBox id="fb4" direction="Column" class="sapUiSmallMarginEnd sapUiSmallMarginBottom">
+                                        <items>
+                                            <!-- <Label id="lblPackymTo" text="구성년월 To" class="sapUiSmallMarginBottom"/> -->
+                                            <Input id="inputPackymTo" placeholder="YYYYMM(To)" width="130px"/>
+                                        </items>
+                                    </FlexBox>
+                                    <FlexBox id="fb5" direction="Column" class="sapUiSmallMarginEnd sapUiSmallMarginBottom">
+                                        <items>
+                                            <!-- <Label id="lblSalsts" text="판매상태" class="sapUiSmallMarginBottom"/> -->
+                                            <Select id="selectSalsts" width="120px">
+                                                <items>
+                                                    <core:Item id="itmAll" key=""  text="전체"/>
+                                                    <core:Item id="itm1"   key="1" text="판매중"/>
+                                                    <core:Item id="itm2"   key="2" text="판매중단"/>
+                                                </items>
+                                            </Select>
+                                        </items>
+                                    </FlexBox>
+                                </items>
+                            </FlexBox>
+                            <Toolbar id="searchToolbar">
+                                <ToolbarSpacer id="ts0"/>
+                                <Button id="btnSearch" text="조회" icon="sap-icon://search" press="onSearch"/>
+                                <Button id="btnReset"  text="초기화" icon="sap-icon://clear-filter" press="onReset"/>
+                            </Toolbar>
+                        </content>
+                    </Panel>
+
+                    <!-- KPI 카드 -->
+<FlexBox id="kpiBox" renderType="Bare" justifyContent="SpaceBetween" class="sapUiSmallMarginTop">
+    <items>
+        <GenericTile id="tileActive"
+                     header="판매중 패키지"
+                     subheader="현재 판매중인 패키지 수"
+                      headerImage="sap-icon://product"
+                     class="sapUiSmallMarginEnd"
+                     frameType="TwoByOne"
+                    press="onTileActivePress">
+            <tileContent>
+                <TileContent id="tc_active" >
+                    <content>
+                        <NumericContent id="nc_active"
+                                        value="{viewModel>/kpiActive}"
+                                        valueColor="Good"/>
+                    </content>
+                </TileContent>
+            </tileContent>
+        </GenericTile>
+
+        <GenericTile id="tileSubject"
+                     header="과목 수"
+                     subheader="구독 가능한 과목 종류"
+                     headerImage="sap-icon://education"
+                     class="sapUiSmallMarginEnd"
+                     frameType="TwoByOne"
+                      press="onTileChartPress">
+            <tileContent>
+                <TileContent id="tc_subject" >
+                    <content>
+                        <NumericContent id="nc_subject"
+                                        value="{viewModel>/kpiSubject}"
+                                        valueColor="Neutral"/>
+                    </content>
+                </TileContent>
+            </tileContent>
+        </GenericTile>
+
+        <GenericTile id="tileAvgPrice"
+                     header="전체 평균가격 (KRW)"
+                     subheader="조회된 패키지 평균"
+                      headerImage="sap-icon://currency"
+                     frameType="TwoByOne"
+                      press="onTileChartPress">
+            <tileContent>
+                <TileContent id="tc_avgprice" >
+                    <content>
+                        <NumericContent id="nc_avgprice"
+                                        value="{viewModel>/kpiAvgPrice}"
+                                        valueColor="Critical"
+                                        truncateValueTo="6"/>
+                    </content>
+                </TileContent>
+            </tileContent>
+        </GenericTile>
+    </items>
+</FlexBox>
+
+                    <!-- 차트: 과목별 평균가격 -->
+                    <Panel id="chartPanel" headerText="과목별 평균가격" class="sapUiSmallMarginTop">
+                        <content>
+                            <viz:VizFrame id="vizChart"
+                                          vizType="column"
+                                          width="100%"
+                                          height="300px"
+                                          uiConfig="{applicationSet:'fiori'}">
+                                <viz:dataset>
+                                    <vizData:FlattenedDataset id="ds1"
+                                        data="{viewModel>/chartData}">
+                                        <vizData:dimensions>
+                                            <vizData:DimensionDefinition id="dim1" name="과목명" value="{viewModel>subjnm}"/>
+                                        </vizData:dimensions>
+                                        <vizData:measures>
+                                            <vizData:MeasureDefinition id="msr1" name="평균가격" value="{viewModel>avgPrice}"/>
+                                        </vizData:measures>
+                                    </vizData:FlattenedDataset>
+                                </viz:dataset>
+                                <viz:feeds>
+                                    <vizFeeds:FeedItem id="feed1" uid="categoryAxis" type="Dimension" values="과목명"/>
+                                    <vizFeeds:FeedItem id="feed2" uid="valueAxis"    type="Measure"   values="평균가격"/>
+                                </viz:feeds>
+                            </viz:VizFrame>
+                        </content>
+                    </Panel>
+
+                    <!-- 헤더 테이블 -->
+                    <!-- 헤더 테이블 -->
+                    <Panel id="headerPanel" headerText="패키지 목록" class="sapUiSmallMarginTop">
+                        <content>
+                            <ScrollContainer id="scrollHeader" height="300px" vertical="true" width="100%">
+                                <Table id="headerTable"
+                                    items="{viewModel>/headerItems}"
+                                    sticky="HeaderToolbar,ColumnHeaders"
+                                    mode="SingleSelectMaster"
+                                    selectionChange="onHeaderSelect"
+                                    growing="true"
+                                    growingThreshold="20"
+                                    growingScrollToLoad="true">
+                                    <headerToolbar>
+                                        <OverflowToolbar id="oft1">
+                                            <Title id="t1" text="{= '패키지 목록 (' + ${viewModel>/headerCount} + '건)'}" level="H3"/>
+                                        </OverflowToolbar>
+                                    </headerToolbar>
+                                    <columns>
+                                        <Column id="colPackcd"><Text id="tc1" text="패키지 코드"/></Column>
+                                        <Column id="colPackym"><Text id="tc2" text="구성년월"/></Column>
+                                        <Column id="colPacknm"><Text id="tc3" text="패키지 명"/></Column>
+                                        <Column id="colSubjnm"><Text id="tc4" text="과목"/></Column>
+                                        <Column id="colAgegrp"><Text id="tc5" text="대상연령"/></Column>
+                                        <Column id="colSalsts"><Text id="tc6" text="판매상태"/></Column>
+                                        <Column id="colPrice" ><Text id="tc7" text="가격"/></Column>
+                                    </columns>
+                                    <items>
+                                        <ColumnListItem id="cli1">
+                                            <cells>
+                                                <Text id="txtPackcd" text="{viewModel>packcd}"/>
+                                                <Text id="txtPackym" text="{viewModel>packym}"/>
+                                                <Text id="txtPacknm" text="{viewModel>packnm}"/>
+                                                <Text id="txtSubjnm" text="{viewModel>subjnm}"/>
+                                                <Text id="txtAgegrp" text="{viewModel>agegrp}"/>
+                                                <ObjectStatus id="objSalsts"
+                                                    text="{= ${viewModel>salsts} === '1' ? '판매중' : '판매중단'}"
+                                                    state="{= ${viewModel>salsts} === '1' ? 'Success' : 'Error'}"/>
+                                            <ObjectNumber id="txtPrice"
+                                number="{path: 'viewModel>price', formatter: '.formatPrice'}"
+                                unit="{viewModel>currency}"/>
+                                            </cells>
+                                        </ColumnListItem>
+                                    </items>
+                                </Table>
+                            </ScrollContainer>
+                        </content>
+                    </Panel>
+
+                    <!-- 아이템 테이블 -->
+                    <Panel id="itemPanel"
+                           headerText="구성 제품 목록"
+                           class="sapUiSmallMarginTop">
+                        <content>
+                            <Table id="itemTable"
+                                   items="{viewModel>/itemItems}"
+                                   sticky="HeaderToolbar,ColumnHeaders">
+                                <headerToolbar>
+                                    <OverflowToolbar id="oft2">
+                                        <Title id="t2" text="{= '구성 제품 (' + ${viewModel>/itemCount} + '건)'}" level="H3"/>
+                                    </OverflowToolbar>
+                                </headerToolbar>
+                                <columns>
+                                    <Column id="colProdcd"><Text id="ti1" text="제품 코드"/></Column>
+                                    <Column id="colProdnm"><Text id="ti2" text="제품 명"/></Column>
+                                    <Column id="colProdqt"><Text id="ti3" text="수량"/></Column>
+                                    <Column id="colUnitcd"><Text id="ti4" text="단위"/></Column>
+                                </columns>
+                                <items>
+                                    <ColumnListItem id="cli2">
+                                        <cells>
+                                            <Text id="txtProdcd" text="{viewModel>prodcd}"/>
+                                            <Text id="txtProdnm" text="{viewModel>prodnm}"/>
+                                            <Text id="txtProdqt" text="{viewModel>prodqt}"/>
+                                            <Text id="txtUnitcd" text="{viewModel>unitcd}"/>
+                                        </cells>
+                                    </ColumnListItem>
+                                </items>
+                            </Table>
+                        </content>
+                    </Panel>
+
+                </items>
+            </FlexBox>
+        </content>
+    </Page>
+</mvc:View>

@@ -21,9 +21,11 @@
                        showValueHelp="true"
                        valueHelpRequest="onValueHelpOrdno"/>
                 <Button id="btnSearch"
+                        text="조회"
                         icon="sap-icon://search"
                         press="onSearch"/>
                 <Button id="btnReset"
+                        text="초기화"
                         icon="sap-icon://clear-filter"
                         press="onReset"/>
                 <ToolbarSpacer id = "ts1" />

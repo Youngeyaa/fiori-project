@@ -445,11 +445,11 @@ sap.ui.define([
     });
 },
 
-onReset: function () {
-    this.byId("sfCustid").setValue("");
-    this.byId("sfOrdno").setValue("");
-    this._applyFilter();
-},
+// onReset: function () {
+//     this.byId("sfCustid").setValue("");
+//     this.byId("sfOrdno").setValue("");
+//     this._applyFilter();
+// },
         onSearch: function () {
             this._applyFilter();
         },
