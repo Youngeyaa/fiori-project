@@ -23,19 +23,19 @@
                                 <items>
                                     <FlexBox id="fb1" direction="Column" class="sapUiSmallMarginEnd sapUiSmallMarginBottom">
                                         <items>
-                                            <Label id="lblOrdymFrom" text="조회월 From" class="sapUiSmallMarginBottom"/>
-                                            <Input id="inputOrdymFrom" placeholder="YYYYMM" width="130px"/>
+                                            <!-- <Label id="lblOrdymFrom" text="조회월 From" class="sapUiSmallMarginBottom"/> -->
+                                            <Input id="inputOrdymFrom" placeholder="YYYYMM(From)" width="130px"/>
                                         </items>
                                     </FlexBox>
                                     <FlexBox id="fb2" direction="Column" class="sapUiSmallMarginEnd sapUiSmallMarginBottom">
                                         <items>
-                                            <Label id="lblOrdymTo" text="조회월 To" class="sapUiSmallMarginBottom"/>
-                                            <Input id="inputOrdymTo" placeholder="YYYYMM" width="130px"/>
+                                            <!-- <Label id="lblOrdymTo" text="조회월 To" class="sapUiSmallMarginBottom"/> -->
+                                            <Input id="inputOrdymTo" placeholder="YYYYMM(To)" width="130px"/>
                                         </items>
                                     </FlexBox>
                                     <FlexBox id="fb3" direction="Column" class="sapUiSmallMarginEnd sapUiSmallMarginBottom">
                                         <items>
-                                            <Label id="lblCustid" text="고객 ID" class="sapUiSmallMarginBottom"/>
+                                            <!-- <Label id="lblCustid" text="고객 ID" class="sapUiSmallMarginBottom"/> -->
                                             <Input id="inputCustid" placeholder="고객 ID" width="160px"
                                                    showValueHelp="true"
                                                    valueHelpRequest="onCustidValueHelp"/>
@@ -43,7 +43,7 @@
                                     </FlexBox>
                                     <FlexBox id="fb4" direction="Column" class="sapUiSmallMarginEnd sapUiSmallMarginBottom">
                                         <items>
-                                            <Label id="lblOrdsts" text="승인상태" class="sapUiSmallMarginBottom"/>
+                                            <!-- <Label id="lblOrdsts" text="승인상태" class="sapUiSmallMarginBottom"/> -->
                                             <Select id="selectOrdsts" width="120px">
                                                 <items>
                                                     <core:Item id="itmAll" key=""  text="전체"/>
@@ -57,7 +57,7 @@
                             </FlexBox>
                             <Toolbar id="searchToolbar">
                                 <ToolbarSpacer id="ts0"/>
-                                <Button id="btnSearch" text="조회" icon="sap-icon://search" type="Emphasized" press="onSearch"/>
+                                <Button id="btnSearch" text="조회" icon="sap-icon://search" press="onSearch"/>
                                 <Button id="btnReset"  text="초기화" icon="sap-icon://clear-filter" press="onReset"/>
                             </Toolbar>
                         </content>
@@ -152,7 +152,7 @@
                                 <items>
                                     <GenericTile id="tileTotamt"
                                                  header="월별 총매출"
-                                                 subheader="조회 기간 합계(만원)"
+                                                 subheader="조회 기간 합계"
                                                  headerImage="sap-icon://money-bills"
                                                  frameType="TwoByOne"
                                                  class="sapUiSmallMarginBottom">
@@ -161,6 +161,8 @@
                                                 <content>
                                                     <NumericContent id="nc_totamt"
                                                                     value="{viewModel>/kpiTotamt}"
+                                                                    scale="KRW"
+                                                                    withMargin="false"
                                                                     valueColor="Good"
                                                                     truncateValueTo="20"
                                                                     />

@@ -42,6 +42,7 @@ sap.ui.define([
             var sCustid = this.byId("inputCustid").getValue().trim();
             var sOrdsts = this.byId("selectOrdsts").getSelectedKey();
 
+
             // 조회월 필터
             if (sFrom && sTo) {
                 aFilters.push(new Filter("ordym", FilterOperator.BT, sFrom, sTo));
@@ -114,10 +115,10 @@ sap.ui.define([
             // 승인건수
             var iApvCnt = aResults.filter((o) => o.ordsts === "2").length;
 
-            var iManwon = Math.round(fTotal / 10000);
-            oViewModel.setProperty("/kpiTotamt", iManwon.toLocaleString("ko-KR"));
+            // var iManwon = Math.round(fTotal / 10000);
+            // oViewModel.setProperty("/kpiTotamt", iManwon.toLocaleString("ko-KR"));
 
-            // oViewModel.setProperty("/kpiTotamt", Math.round(fTotal).toLocaleString("ko-KR"));
+             oViewModel.setProperty("/kpiTotamt", Math.round(fTotal).toLocaleString("ko-KR"));
             oViewModel.setProperty("/kpiOrdCnt", iOrdCnt);
             oViewModel.setProperty("/kpiApvCnt", iApvCnt);
         },
