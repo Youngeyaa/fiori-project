@@ -364,84 +364,74 @@ sap.ui.define([
             return this.byId("tabBar").getSelectedKey() === "pending" ? "1" : "2";
         },
 
-        // _applyFilter: function () {
-        //     var sKey = this.byId("tabBar").getSelectedKey();
-        //     var sTableId = this._getCurrentTableId();
-        //     var sOrdsts = this._getCurrentOrdsts();
-        //     var sCustid = this.byId("sfCustid").getValue();
-        //     var sOrdno = this.byId("sfOrdno").getValue();
-        //     var oTable = this.byId(sTableId);
-        //     var oBinding = oTable.getBinding("items");
-        //     var oViewModel = this.getView().getModel("viewModel");
+       
 
-        //     oBinding.filter([new Filter("Ordsts", FilterOperator.EQ, sOrdsts)]);
+//         _applyFilter: function () {
+//     var sKey = this.byId("tabBar").getSelectedKey();
+//     var sTableId = this._getCurrentTableId();
+//     var sOrdsts = this._getCurrentOrdsts();
+//     var sCustid = this.byId("sfCustid").getValue();
+//     var sOrdno = this.byId("sfOrdno").getValue();
+//     var oTable = this.byId(sTableId);
+//     var oBinding = oTable.getBinding("items");
+//     var oViewModel = this.getView().getModel("viewModel");
+//     var sCountKey = sKey === "pending" ? "/pendingCount" : "/approvedCount";
+//     var oModel = this.getView().getModel();
 
-        //     if (sKey === "pending") {
-        //         oBinding.attachEventOnce("dataReceived", function () {
-        //             var iCount = 0;
-        //             oTable.getItems().forEach((oItem) => {
-        //                 var sC = oItem.getBindingContext().getProperty("Custid").toUpperCase();
-        //                 var sO = oItem.getBindingContext().getProperty("Ordno").toUpperCase();
-        //                 var bCustid = sCustid ? sC.includes(sCustid.toUpperCase()) : true;
-        //                 var bOrdno = sOrdno ? sO.includes(sOrdno.toUpperCase()) : true;
-        //                 var bVisible = bCustid && bOrdno;
-        //                 oItem.setVisible(bVisible);
-        //                 if (bVisible) iCount++;
-        //             });
-        //             oViewModel.setProperty("/pendingCount", iCount);
-        //         });
-        //     } else {
-        //         oBinding.attachEventOnce("dataReceived", function () {
-        //             oTable.getItems().forEach((oItem) => {
-        //                 var sC = oItem.getBindingContext().getProperty("Custid").toUpperCase();
-        //                 var sO = oItem.getBindingContext().getProperty("Ordno").toUpperCase();
-        //                 var bCustid = sCustid ? sC.includes(sCustid.toUpperCase()) : true;
-        //                 var bOrdno = sOrdno ? sO.includes(sOrdno.toUpperCase()) : true;
-        //                 oItem.setVisible(bCustid && bOrdno);
-        //             });
-        //             // 승인완료 건수는 $count 유지 (_loadCount로만 업데이트)
-        //         });
-        //     }
-        // },
+//     oBinding.filter([new Filter("Ordsts", FilterOperator.EQ, sOrdsts)]);
 
-        _applyFilter: function () {
+//     oBinding.attachEventOnce("dataReceived", function () {
+//         var iCount = 0;
+//         oTable.getItems().forEach((oItem) => {
+//             var sC = oItem.getBindingContext().getProperty("Custid").toUpperCase();
+//             var sO = oItem.getBindingContext().getProperty("Ordno").toUpperCase();
+//             var bCustid = sCustid ? sC.includes(sCustid.toUpperCase()) : true;
+//             var bOrdno = sOrdno ? sO.includes(sOrdno.toUpperCase()) : true;
+//             var bVisible = bCustid && bOrdno;
+//             oItem.setVisible(bVisible);
+//             if (bVisible) iCount++;
+//         });
+
+//         if (sCustid || sOrdno) {
+//             // 검색 조건 있으면 결과 건수로 업데이트
+//             oViewModel.setProperty(sCountKey, iCount);
+//         } else {
+//             // 검색 조건 없으면 $count로 전체 건수 복구
+//             oModel.read("/SalesOrderHeaderSet/$count", {
+//                 filters: [new Filter("Ordsts", FilterOperator.EQ, sOrdsts)],
+//                 success: (iTotalCount) => {
+//                     oViewModel.setProperty(sCountKey, iTotalCount);
+//                 }
+//             });
+//         }
+//     });
+// },
+
+_applyFilter: function () {
     var sKey = this.byId("tabBar").getSelectedKey();
     var sTableId = this._getCurrentTableId();
     var sOrdsts = this._getCurrentOrdsts();
-    var sCustid = this.byId("sfCustid").getValue();
-    var sOrdno = this.byId("sfOrdno").getValue();
+    var sCustid = this.byId("sfCustid").getValue().trim();
+    var sOrdno = this.byId("sfOrdno").getValue().trim();
     var oTable = this.byId(sTableId);
     var oBinding = oTable.getBinding("items");
     var oViewModel = this.getView().getModel("viewModel");
-    var sCountKey = sKey === "pending" ? "/pendingCount" : "/approvedCount";
     var oModel = this.getView().getModel();
+    var sCountKey = sKey === "pending" ? "/pendingCount" : "/approvedCount";
 
-    oBinding.filter([new Filter("Ordsts", FilterOperator.EQ, sOrdsts)]);
+    var aFilters = [new Filter("Ordsts", FilterOperator.EQ, sOrdsts)];
+    if (sCustid) aFilters.push(new Filter("Custid", FilterOperator.EQ, sCustid));
+    if (sOrdno)  aFilters.push(new Filter("Ordno",  FilterOperator.EQ, sOrdno));
+
+    oBinding.filter(aFilters);
 
     oBinding.attachEventOnce("dataReceived", function () {
-        var iCount = 0;
-        oTable.getItems().forEach((oItem) => {
-            var sC = oItem.getBindingContext().getProperty("Custid").toUpperCase();
-            var sO = oItem.getBindingContext().getProperty("Ordno").toUpperCase();
-            var bCustid = sCustid ? sC.includes(sCustid.toUpperCase()) : true;
-            var bOrdno = sOrdno ? sO.includes(sOrdno.toUpperCase()) : true;
-            var bVisible = bCustid && bOrdno;
-            oItem.setVisible(bVisible);
-            if (bVisible) iCount++;
+        oModel.read("/SalesOrderHeaderSet/$count", {
+            filters: aFilters,
+            success: (iCount) => {
+                oViewModel.setProperty(sCountKey, iCount);
+            }
         });
-
-        if (sCustid || sOrdno) {
-            // 검색 조건 있으면 결과 건수로 업데이트
-            oViewModel.setProperty(sCountKey, iCount);
-        } else {
-            // 검색 조건 없으면 $count로 전체 건수 복구
-            oModel.read("/SalesOrderHeaderSet/$count", {
-                filters: [new Filter("Ordsts", FilterOperator.EQ, sOrdsts)],
-                success: (iTotalCount) => {
-                    oViewModel.setProperty(sCountKey, iTotalCount);
-                }
-            });
-        }
     });
 },
 
@@ -460,23 +450,51 @@ sap.ui.define([
             this._applyFilter();
         },
 
+        // onValueHelpCustid: function () {
+        //     var oTable = this.byId(this._getCurrentTableId());
+        //     var aData = oTable.getItems()
+        //         .filter((oItem) => oItem.getVisible())
+        //         .map((oItem) => ({ val: oItem.getBindingContext().getProperty("Custid") }));
+        //     var aUnique = aData.filter((v, i, a) => a.findIndex(t => t.val === v.val) === i);
+        //     this._openSelectDialog("고객ID 선택", aUnique, "sfCustid");
+        // },
+
         onValueHelpCustid: function () {
-            var oTable = this.byId(this._getCurrentTableId());
-            var aData = oTable.getItems()
-                .filter((oItem) => oItem.getVisible())
-                .map((oItem) => ({ val: oItem.getBindingContext().getProperty("Custid") }));
+    var sOrdsts = this._getCurrentOrdsts();
+    var oModel = this.getView().getModel();
+
+    oModel.read("/SalesOrderHeaderSet", {
+        filters: [new Filter("Ordsts", FilterOperator.EQ, sOrdsts)],
+        urlParameters: { "$select": "Custid", "$orderby": "Custid asc" },
+        success: (oData) => {
+            var aData = oData.results.map((o) => ({ val: o.Custid }));
             var aUnique = aData.filter((v, i, a) => a.findIndex(t => t.val === v.val) === i);
             this._openSelectDialog("고객ID 선택", aUnique, "sfCustid");
-        },
+        }
+    });
+},
 
-        onValueHelpOrdno: function () {
-            var oTable = this.byId(this._getCurrentTableId());
-            var aData = oTable.getItems()
-                .filter((oItem) => oItem.getVisible())
-                .map((oItem) => ({ val: oItem.getBindingContext().getProperty("Ordno") }));
-            this._openSelectDialog("오더번호 선택", aData, "sfOrdno");
-        },
+        // onValueHelpOrdno: function () {
+        //     var oTable = this.byId(this._getCurrentTableId());
+        //     var aData = oTable.getItems()
+        //         .filter((oItem) => oItem.getVisible())
+        //         .map((oItem) => ({ val: oItem.getBindingContext().getProperty("Ordno") }));
+        //     this._openSelectDialog("오더번호 선택", aData, "sfOrdno");
+        // },
+onValueHelpOrdno: function () {
+    var sOrdsts = this._getCurrentOrdsts();
+    var oModel = this.getView().getModel();
 
+    oModel.read("/SalesOrderHeaderSet", {
+        filters: [new Filter("Ordsts", FilterOperator.EQ, sOrdsts)],
+        urlParameters: { "$select": "Ordno", "$orderby": "Ordno desc" },
+        success: (oData) => {
+            var aData = oData.results.map((o) => ({ val: o.Ordno }));
+            var aUnique = aData.filter((v, i, a) => a.findIndex(t => t.val === v.val) === i);
+            this._openSelectDialog("오더번호 선택", aUnique, "sfOrdno");
+        }
+    });
+},
         _openSelectDialog: function (sTitle, aData, sInputId) {
             var oModel = new JSONModel({ items: aData });
 
