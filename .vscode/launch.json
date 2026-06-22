@@ -1427,10 +1427,10 @@
         }
     },
     {
-        "name": "Start zfmg2sd0001",
+        "name": "Start zfsg2sd0001",
         "type": "node",
         "request": "launch",
-        "cwd": "${workspaceFolder}/zfmg2sd0001",
+        "cwd": "${workspaceFolder}/zfsg2sd0001",
         "runtimeExecutable": "npx",
         "windows": {
             "runtimeExecutable": "npx.cmd"
@@ -1452,10 +1452,10 @@
         }
     },
     {
-        "name": "Start zfmg2sd0001 Local",
+        "name": "Start zfsg2sd0001 Local",
         "type": "node",
         "request": "launch",
-        "cwd": "${workspaceFolder}/zfmg2sd0001",
+        "cwd": "${workspaceFolder}/zfsg2sd0001",
         "runtimeExecutable": "npx",
         "windows": {
             "runtimeExecutable": "npx.cmd"
@@ -1478,10 +1478,10 @@
         }
     },
     {
-        "name": "Start zfmg2sd0001 Mock",
+        "name": "Start zfsg2sd0001 Mock",
         "type": "node",
         "request": "launch",
-        "cwd": "${workspaceFolder}/zfmg2sd0001",
+        "cwd": "${workspaceFolder}/zfsg2sd0001",
         "runtimeExecutable": "npx",
         "windows": {
             "runtimeExecutable": "npx.cmd"
@@ -1581,10 +1581,10 @@
         }
     },
     {
-        "name": "Start zfqg2sd0003",
+        "name": "Start zfqg2sd0004",
         "type": "node",
         "request": "launch",
-        "cwd": "${workspaceFolder}/zfqg2sd0003",
+        "cwd": "${workspaceFolder}/zfqg2sd0004",
         "runtimeExecutable": "npx",
         "windows": {
             "runtimeExecutable": "npx.cmd"
@@ -1606,10 +1606,10 @@
         }
     },
     {
-        "name": "Start zfqg2sd0003 Local",
+        "name": "Start zfqg2sd0004 Local",
         "type": "node",
         "request": "launch",
-        "cwd": "${workspaceFolder}/zfqg2sd0003",
+        "cwd": "${workspaceFolder}/zfqg2sd0004",
         "runtimeExecutable": "npx",
         "windows": {
             "runtimeExecutable": "npx.cmd"
@@ -1632,10 +1632,10 @@
         }
     },
     {
-        "name": "Start zfqg2sd0003 Mock",
+        "name": "Start zfqg2sd0004 Mock",
         "type": "node",
         "request": "launch",
-        "cwd": "${workspaceFolder}/zfqg2sd0003",
+        "cwd": "${workspaceFolder}/zfqg2sd0004",
         "runtimeExecutable": "npx",
         "windows": {
             "runtimeExecutable": "npx.cmd"

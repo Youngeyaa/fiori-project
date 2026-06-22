@@ -1,0 +1,257 @@
+<mvc:View
+    controllerName="code.zfqg2sd0004.controller.Main"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:viz="sap.viz.ui5.controls"
+    xmlns:vizData="sap.viz.ui5.data"
+    xmlns:vizFeeds="sap.viz.ui5.controls.common.feeds">
+
+    <Page id="page" title="월별 구독 KPI 대시보드">
+        <content>
+            <FlexBox id="mainBox"
+                     renderType="Bare"
+                     direction="Column"
+                     class="sapUiSmallMargin"
+                     width="calc(100% - 2rem)">
+                <items>
+
+                    <!-- 검색 필터 -->
+                    <Panel id="filterPanel" headerText="검색 조건" expandable="true" expanded="true" width="100%">
+                        <content>
+                            <FlexBox id="filterBox" renderType="Bare" wrap="Wrap">
+                                <items>
+                                    <FlexBox id="fb1" direction="Column" class="sapUiSmallMarginEnd sapUiSmallMarginBottom">
+                                        <items>
+                                            <Input id="inputOrdymFrom" placeholder="YYYYMM(From)" width="130px"/>
+                                        </items>
+                                    </FlexBox>
+                                    <FlexBox id="fb2" direction="Column" class="sapUiSmallMarginEnd sapUiSmallMarginBottom">
+                                        <items>
+                                            <Input id="inputOrdymTo" placeholder="YYYYMM(To)" width="130px"/>
+                                        </items>
+                                    </FlexBox>
+                                    <FlexBox id="fb3" direction="Column" class="sapUiSmallMarginEnd sapUiSmallMarginBottom">
+                                        <items>
+                                            <Input id="inputCustid" placeholder="고객 ID" width="160px"
+                                                   showValueHelp="true"
+                                                   valueHelpRequest="onCustidValueHelp"/>
+                                        </items>
+                                    </FlexBox>
+                                    <FlexBox id="fb4" direction="Column" class="sapUiSmallMarginEnd sapUiSmallMarginBottom">
+                                        <items>
+                                            <Select id="selectOrdsts" width="120px">
+                                                <items>
+                                                    <core:Item id="itmAll" key=""  text="전체"/>
+                                                    <core:Item id="itm1"   key="1" text="대기"/>
+                                                    <core:Item id="itm2"   key="2" text="승인"/>
+                                                </items>
+                                            </Select>
+                                        </items>
+                                    </FlexBox>
+                                </items>
+                            </FlexBox>
+                            <Toolbar id="searchToolbar">
+                                <ToolbarSpacer id="ts0"/>
+                               <Button id="btnCompare" 
+                                        text="{= ${viewModel>/compareMode} ? '올해만 보기' : '전년동기 비교'}" 
+                                        icon="{= ${viewModel>/compareMode} ? 'sap-icon://undo' : 'sap-icon://compare'}"
+                                        press="onCompare"
+                                        enabled="{viewModel>/compareEnabled}"/>
+                                <Button id="btnSearch" text="조회" icon="sap-icon://search" type="Emphasized" press="onSearch"/>
+                                <Button id="btnReset"  text="초기화" icon="sap-icon://clear-filter" press="onReset"/>
+                            </Toolbar>
+                        </content>
+                    </Panel>
+
+                    <!-- 차트 + KPI 카드 좌우 분할 -->
+                    <FlexBox id="contentBox" renderType="Bare" width="100%" class="sapUiSmallMarginTop">
+                        <items>
+
+                            <!-- 좌측: 차트 + 오더 테이블 -->
+                            <FlexBox id="leftBox" direction="Column" width="70%" class="sapUiSmallMarginEnd">
+                                <items>
+
+                                    <!-- 차트: 월별 매출 추이 -->
+                                    <Panel id="chartPanel" headerText="월별 매출 추이">
+                                        <content>
+                                            <viz:VizFrame id="vizChart"
+                                                          vizType="column"
+                                                          width="100%"
+                                                          height="300px"
+                                                          uiConfig="{applicationSet:'fiori'}">
+                                                <viz:dataset>
+                                                    <vizData:FlattenedDataset id="ds1"
+                                                        data="{viewModel>/chartData}">
+                                                        <vizData:dimensions>
+                                                            <vizData:DimensionDefinition id="dim1" name="월" value="{viewModel>month}"/>
+                                                            <vizData:DimensionDefinition id="dim2" name="연도" value="{viewModel>series}"/>
+                                                        </vizData:dimensions>
+                                                        <vizData:measures>
+                                                            <vizData:MeasureDefinition id="msr1" name="매출" value="{viewModel>amount}"/>
+                                                        </vizData:measures>
+                                                    </vizData:FlattenedDataset>
+                                                </viz:dataset>
+                                                <viz:feeds>
+                                                    <vizFeeds:FeedItem id="feed1" uid="categoryAxis" type="Dimension" values="월"/>
+                                                    <vizFeeds:FeedItem id="feed2" uid="valueAxis"    type="Measure"   values="매출"/>
+                                                    <vizFeeds:FeedItem id="feed3" uid="color"        type="Dimension" values="연도"/>
+                                                </viz:feeds>
+                                            </viz:VizFrame>
+                                            <viz:Popover id="popover"/>
+                                        </content>
+                                    </Panel>
+
+                                    <!-- 오더 목록 테이블 -->
+                                    <Panel id="orderPanel" headerText="오더 목록" class="sapUiSmallMarginTop">
+                                        <content>
+                                            <ScrollContainer id="scrollOrder" height="300px" vertical="true" width="100%">
+                                                <Table id="orderTable"
+                                                       items="{viewModel>/orderItems}"
+                                                       sticky="HeaderToolbar,ColumnHeaders"
+                                                       growing="true"
+                                                       growingThreshold="20"
+                                                       growingScrollToLoad="true">
+                                                    <headerToolbar>
+                                                        <OverflowToolbar id="oft1">
+                                                            <Title id="t1" text="{= '오더 목록 (' + ${viewModel>/orderCount} + '건)'}" level="H3"/>
+                                                        </OverflowToolbar>
+                                                    </headerToolbar>
+                                                   <columns>
+                                                    <Column id="colOrdno"  width="10em"><Text id="tc1" text="오더 번호"/></Column>
+                                                    <Column id="colOrdym"  width="7em" ><Text id="tc2" text="오더 월"/></Column>
+                                                    <Column id="colCustid" width="8em" ><Text id="tc3" text="고객 ID"/></Column>
+                                                    <Column id="colCustnm" width="15em"><Text id="tc4" text="고객명"/></Column>
+                                                    <Column id="colOrdseq" width="5em" ><Text id="tc5" text="회차"/></Column>
+                                                    <Column id="colOrdsts" width="7em" ><Text id="tc6" text="승인상태"/></Column>
+                                                    <Column id="colTotamt" width="10em"><Text id="tc7" text="총 금액"/></Column>
+                                                </columns>
+                                                    <items>
+                                                        <ColumnListItem id="cli1">
+                                                            <cells>
+                                                                <Text id="txtOrdno"  text="{viewModel>ordno}"/>
+                                                                <Text id="txtOrdym"  text="{viewModel>ordym}"/>
+                                                                <Text id="txtCustid" text="{viewModel>custid}"/>
+                                                                <Text id="txtCustnm" text="{viewModel>custnm}"/>
+                                                                <Text id="txtOrdseq" text="{viewModel>ordseq}"/>
+                                                                <ObjectStatus id="objOrdsts"
+                                                                    text="{= ${viewModel>ordsts} === '1' ? '대기' : '승인'}"
+                                                                    state="{= ${viewModel>ordsts} === '1' ? 'Warning' : 'Success'}"/>
+                                                                <ObjectNumber id="txtTotamt"
+                                                                              number="{path: 'viewModel>totamt', formatter: '.formatAmount'}"
+                                                                              unit="{viewModel>currency}"/>
+                                                            </cells>
+                                                        </ColumnListItem>
+                                                    </items>
+                                                </Table>
+                                            </ScrollContainer>
+                                        </content>
+                                    </Panel>
+
+                                </items>
+                            </FlexBox>
+
+                            <!-- 우측: KPI 카드 세로 정렬 -->
+                            <FlexBox id="rightBox" direction="Column" width="40%">
+                                <items>
+
+                                <GenericTile id="tileGrowth"
+                                        header="전년동기 대비"
+                                        subheader="매출 증감률"
+                                        headerImage="{= ${viewModel>/kpiGrowth} >= 0 ? 'sap-icon://trend-up' : 'sap-icon://trend-down'}"
+                                        frameType="TwoByOne"
+                                        visible="{viewModel>/compareVisible}"
+                                        state="{= ${viewModel>/kpiGrowth} >= 0 ? 'Loaded' : 'Failed'}"
+                                        class="sapUiSmallMarginBottom">
+                                    <tileContent>
+                                        <TileContent id="tc_growth">
+                                            <content>
+                                                <NumericContent id="nc_growth"
+                                                                value="{viewModel>/kpiGrowth}"
+                                                                scale="%"
+                                                                valueColor="{viewModel>/kpiGrowthColor}"
+                                                                withMargin="false"
+                                                                truncateValueTo="10"/>
+                                            </content>
+                                        </TileContent>
+                                    </tileContent>
+                                </GenericTile>
+
+                                    <GenericTile id="tileTotamt"
+                                                 header="월별 총매출"
+                                                 subheader="조회 기간 합계"
+                                                 headerImage="sap-icon://money-bills"
+                                                 frameType="TwoByOne"
+                                                 class="sapUiSmallMarginBottom">
+                                        <tileContent>
+                                            <!-- <TileContent id="tc_totamt">
+                                                <content>
+                                                    <NumericContent id="nc_totamt"
+                                                                    value="{viewModel>/kpiTotamt}"
+                                                                    scale="KRW"
+                                                                    withMargin="false"
+                                                                    valueColor="Good"
+                                                                    truncateValueTo="20"/>
+                                                </content>
+                                            </TileContent> -->
+                                            <TileContent id="tc_totamt">
+                                            <content>
+                                                <NumericContent id="nc_totamt"
+                                                                value="{viewModel>/kpiTotamt}"
+                                                                scale="KRW"
+                                                                valueColor="Good"
+                                                                withMargin="false"
+                                                                truncateValueTo="20"/>
+                                            </content>
+                                        </TileContent>
+                                        </tileContent>
+                                    </GenericTile>
+
+                                    <GenericTile id="tileOrdCnt"
+                                                 header="구독건수"
+                                                 subheader="전체 오더 건수"
+                                                 headerImage="sap-icon://document"
+                                                 frameType="TwoByOne"
+                                                 class="sapUiSmallMarginBottom">
+                                        <tileContent>
+                                            <TileContent id="tc_ordcnt">
+                                                <content>
+                                                    <NumericContent id="nc_ordcnt"
+                                                                    value="{viewModel>/kpiOrdCnt}"
+                                                                    valueColor="Neutral"
+                                                                    truncateValueTo="10"/>
+                                                </content>
+                                            </TileContent>
+                                        </tileContent>
+                                    </GenericTile>
+
+                                    <GenericTile id="tileApvCnt"
+                                                 header="승인건수"
+                                                 subheader="승인 완료 오더 건수"
+                                                 headerImage="sap-icon://accept"
+                                                 frameType="TwoByOne"
+                                                 class="sapUiSmallMarginBottom">
+                                        <tileContent>
+                                            <TileContent id="tc_apvcnt">
+                                                <content>
+                                                    <NumericContent id="nc_apvcnt"
+                                                                    value="{viewModel>/kpiApvCnt}"
+                                                                    valueColor="Critical"
+                                                                    truncateValueTo="10"/>
+                                                </content>
+                                            </TileContent>
+                                        </tileContent>
+                                    </GenericTile>
+
+                                    
+                                </items>
+                            </FlexBox>
+
+                        </items>
+                    </FlexBox>
+
+                </items>
+            </FlexBox>
+        </content>
+    </Page>
+</mvc:View>
