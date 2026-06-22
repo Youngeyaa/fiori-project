@@ -1,0 +1,25 @@
+# yaml-language-server: $schema=https://sap.github.io/ui5-tooling/schema/ui5.yaml.json
+
+specVersion: "3.1"
+metadata:
+  name: code.zfsg2sd0001
+type: application
+builder:
+  resources:
+    excludes:
+      - /test/**
+      - /localService/**
+  customTasks:
+    - name: deploy-to-abap
+      afterTask: generateCachebusterInfo
+      configuration:
+        target:
+          url: http://61.97.134.36:8000
+          client: '100'
+        app:
+          name: ZFSG2SD0001
+          description: '[SD] 판매승인'
+          package: ZPG2
+          transport: EFXK901829
+        exclude:
+          - /test/
