@@ -341,6 +341,7 @@ sap.ui.define([
             oViewModel.setProperty("/compareVisible", false);
             oViewModel.setProperty("/kpiGrowth", 0);
             oViewModel.setProperty("/kpiGrowthColor", "Neutral");
+            oViewModel.setProperty("/compareEnabled", false);  // 추가
         }
     });
 });

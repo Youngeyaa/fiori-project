@@ -1,1 +1,59 @@
-/* Enter your custom styles here */
+.kpiCardRoot {
+    display: flex;
+    gap: 1rem;
+    padding: 0.5rem 0;
+}
+
+.kpiCardBox {
+    flex: 1;
+    background: #fff;
+    border: 1px solid #e5e5e5;
+    border-radius: 8px;
+    padding: 1rem 1.25rem;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    transition: box-shadow 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+    cursor: default;
+}
+
+.kpiCardBox:hover {
+    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+    transform: translateY(-2px);
+    border-color: #0070f2;
+}
+
+.kpiCardLabel {
+    font-size: 0.75rem;
+    color: #6a6d70;
+}
+
+.kpiCardValue {
+    font-size: 1.75rem;
+    font-weight: bold;
+    color: #32363a;
+    margin-top: 0.5rem;
+}
+
+.kpiCardUnit {
+    font-size: 0.875rem;
+    color: #6a6d70;
+    margin-left: 0.25rem;
+}
+
+.kpiCardIcon {
+    font-size: 1.75rem;
+}
+
+/* 색상 클래스 */
+.kpiIconGood     { color: #007833; }
+.kpiIconCritical { color: #bb0000; }
+.kpiIconNeutral  { color: #0070f2; }
+.kpiIconWarning  { color: #e9730c; }
+
+.kpiValueGood     { color: #007833; }
+.kpiValueCritical { color: #bb0000; }
+.kpiValueWarning  { color: #e9730c; }
+
+/* 전년동기 카드: 3개 카드와 동일한 너비로 고정 */
+#kpiGrowthWrapper {
+    max-width: calc(25% - 0.75rem);
+}
