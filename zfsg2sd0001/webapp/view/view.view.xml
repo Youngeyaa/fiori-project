@@ -39,6 +39,10 @@
                         text="초기화"
                         icon="sap-icon://clear-filter"
                         press="onReset"/>
+                <Button id="btnExcel"
+                        text="엑셀 다운로드"
+                        icon="sap-icon://excel-attachment"
+                        press="onExportExcel"/>
                 <ToolbarSpacer id="ts1"/>
                 <Button id="btnApprove"
                         text="오더 승인"
@@ -51,155 +55,269 @@
         </subHeader>
 
         <content>
-            <IconTabBar id="tabBar"
-                        select="onTabSelect"
-                        expandable="false"
-                        class="sapUiSmallMargin">
-                <items>
+            <Panel id="mainPanel" expandable="false" class="sapUiNoMargin">
+                <IconTabBar id="tabBar"
+                            select="onTabSelect"
+                            expandable="false"
+                            class="sapUiNoMargin">
+                    <items>
 
-                    <!-- 승인 대기 탭 -->
-                    <IconTabFilter id="tabPending"
-                                   text="{= '승인 대기 (' + ${viewModel>/pendingCount} + '건)'}"
-                                   key="pending">
-                        <content>
+                        <IconTabFilter id="tabPending"
+                                       text="{= '승인 대기 (' + ${viewModel>/pendingCount} + '건)'}"
+                                       key="pending">
+                            <content>
 
-                            <ScrollContainer id="sc1"
-                                             height="350px"
-                                             vertical="true"
-                                             width="100%">
-                                <Table id="headerTable"
-                                       items="{path: '/SalesOrderHeaderSet'}"
-                                       sticky="HeaderToolbar,ColumnHeaders"
-                                       mode="MultiSelect"
-                                       itemPress="onItemPress"
-                                       selectionChange="onSelectionChange"
-                                       growing="true"
-                                       growingThreshold="20"
-                                       growingScrollToLoad="true"
-                                       noDataText="조회 버튼을 눌러 데이터를 조회하세요.">
-                                    <columns>
-                                        <Column id="colStatus" width="6em"><Text id="t2" text="상태"/></Column>
-                                        <Column id="colOrdno"><Text id="t3" text="오더 번호"/></Column>
-                                        <Column id="colCustid"><Text id="t4" text="고객 ID"/></Column>
-                                        <Column id="colOrddt"><Text id="tDt" text="주문일"/></Column>
-                                        <Column id="colOrdseq" minScreenWidth="Tablet" demandPopin="true"><Text id="t5" text="회차"/></Column>
-                                        <Column id="colAmount" hAlign="End"><Text id="t6" text="총 금액"/></Column>
-                                    </columns>
-                                    <items>
-                                        <ColumnListItem id="colList1" type="Active">
-                                            <cells>
-                                                <ObjectStatus id="obj1"
-                                                    text="대기"
-                                                    state="Warning"
-                                                    icon="sap-icon://pending"/>
-                                                <ObjectIdentifier id="txtOrdno" title="{Ordno}"/>
-                                                <Text id="txtCustid" text="{Custid}"/>
-                                                <Text id="txtOrddt" text="{path: 'Orddt', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'yyyy-MM-dd'}}"/>
-                                                <Text id="txtOrdseq" text="{Ordseq}"/>
-                                                <ObjectNumber id="txtAmount"
-                                                    number="{ path: 'Totamt', type: 'sap.ui.model.type.Float', formatOptions: { groupingEnabled: true, minFractionDigits: 0, maxFractionDigits: 0 } }"
-                                                    unit="{Currency}"/>
-                                            </cells>
-                                        </ColumnListItem>
-                                    </items>
-                                </Table>
-                            </ScrollContainer>
+                                <Panel id="sc1"
+                                       expandable="false"
+                                       height="{= ${viewModel>/pendingCount} > 10 ? '400px' : 'auto'}"
+                                       class="sapUiSmallMarginBottom">
+                                    <Table id="headerTable"
+                                           items="{path: '/SalesOrderHeaderSet'}"
+                                           sticky="HeaderToolbar,ColumnHeaders"
+                                           mode="MultiSelect"
+                                           itemPress="onItemPress"
+                                           selectionChange="onSelectionChange"
+                                           growing="true"
+                                           growingThreshold="20"
+                                           growingScrollToLoad="false"
+                                           noDataText="조회 버튼을 눌러 데이터를 조회하세요.">
+                                        <columns>
+                                            <Column id="colStatus" width="6em"><Text id="t2" text="상태"/></Column>
+                                            <Column id="colOrdno"><Text id="t3" text="오더 번호"/></Column>
+                                            <Column id="colCustid"><Text id="t4" text="고객 ID"/></Column>
+                                            <Column id="colCustnm"><Text id="tCustnm" text="고객명"/></Column>
+                                            <Column id="colOrddt"><Text id="tDt" text="주문일"/></Column>
+                                            <Column id="colOrdseq" minScreenWidth="Tablet" demandPopin="true"><Text id="t5" text="회차"/></Column>
+                                            <Column id="colAmount" hAlign="End"><Text id="t6" text="총 금액"/></Column>
+                                            <Column id="colDetail" width="6em" hAlign="Center"><Text id="tDetail" text="상세"/></Column>
+                                        </columns>
+                                        <items>
+                                            <ColumnListItem id="colList1" type="Active">
+                                                <cells>
+                                                    <ObjectStatus id="obj1"
+                                                                  text="대기"
+                                                                  state="Warning"
+                                                                  icon="sap-icon://pending"/>
+                                                    <ObjectIdentifier id="txtOrdno" title="{Ordno}"/>
+                                                    <Text id="txtCustid" text="{Custid}"/>
+                                                    <Text id="txtCustnm" text="{Custnm}"/>
+                                                    <Text id="txtOrddt" text="{path: 'Orddt', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'yyyy-MM-dd'}}"/>
+                                                    <Text id="txtOrdseq" text="{Ordseq}"/>
+                                                    <ObjectNumber id="txtAmount"
+                                                                  number="{ path: 'Totamt', type: 'sap.ui.model.type.Float', formatOptions: { groupingEnabled: true, minFractionDigits: 0, maxFractionDigits: 0 } }"
+                                                                  unit="{Currency}"/>
+                                                    <Button id="btnDetail"
+                                                            icon="sap-icon://detail-view"
+                                                            type="Transparent"
+                                                            press="onOrdnoPress"/>
+                                                </cells>
+                                            </ColumnListItem>
+                                        </items>
+                                    </Table>
+                                </Panel>
 
-                            <!-- 제품 소요 현황 -->
-                            <ScrollContainer id="scrollMapping"
-                                             height="250px"
-                                             vertical="true"
-                                             width="100%"
-                                             visible="{viewModel>/mappingVisible}"
-                                             class="sapUiSmallMarginTop">
-                                <Table id="mappingTable"
-                                       items="{viewModel>/mappingItems}"
-                                       sticky="HeaderToolbar,ColumnHeaders"
-                                       noDataText="오더 행을 클릭하면 제품 소요 현황이 표시됩니다.">
+                                <Panel id="scrollMapping"
+                                       expandable="false"
+                                       visible="{viewModel>/mappingVisible}"
+                                       class="sapUiSmallMarginTop">
                                     <headerToolbar>
                                         <OverflowToolbar id="oft2">
                                             <Title id="t7" text="제품 소요 현황 ({viewModel>/selectedOrdno})" level="H3"/>
                                         </OverflowToolbar>
                                     </headerToolbar>
-                                    <columns>
-                                        <Column id="colProdcd"><Text id="t8" text="제품코드"/></Column>
-                                        <Column id="colWhscd"><Text id="t9" text="창고코드"/></Column>
-                                        <Column id="colQty"><Text id="t10" text="필요수량"/></Column>
-                                        <Column id="colShortqty"><Text id="t11" text="부족수량"/></Column>
-                                        <Column id="colStksts"><Text id="t12" text="재고상태"/></Column>
-                                        <Column id="colAvlqty"><Text id="t13" text="현재재고(실시간)"/></Column>
-                                    </columns>
-                                    <items>
-                                        <ColumnListItem id="colList2"
-                                            highlight="{= ${viewModel>Stksts} === 'N' ? 'Error' : 'Success' }">
-                                            <cells>
-                                                <Text id="txtProdcd" text="{viewModel>Prodcd}"/>
-                                                <Text id="txtWhscd" text="{viewModel>Whscd}"/>
-                                                <Text id="txtQty" text="{viewModel>Qty}"/>
-                                                <Text id="txtShortqty" text="{viewModel>Shortqty}"/>
-                                                <ObjectStatus id="objStksts"
-                                                    text="{= ${viewModel>Stksts} === 'Y' ? '정상' : '부족' }"
-                                                    state="{= ${viewModel>Stksts} === 'Y' ? 'Success' : 'Error' }"/>
-                                                <ObjectNumber id="txtAvlqty"
-                                                    number="{viewModel>Avlqty}"
-                                                    state="{= ${viewModel>Stksts} === 'N' ? 'Error' : 'None' }"/>
-                                            </cells>
-                                        </ColumnListItem>
-                                    </items>
-                                </Table>
-                            </ScrollContainer>
+                                    <Table id="mappingTable"
+                                           items="{viewModel>/mappingItems}"
+                                           sticky="HeaderToolbar,ColumnHeaders"
+                                           noDataText="오더 행을 클릭하면 제품 소요 현황이 표시됩니다.">
+                                        <columns>
+                                            <Column id="colProdcd"><Text id="t8" text="제품코드"/></Column>
+                                            <Column id="colWhscd"><Text id="t9" text="창고코드"/></Column>
+                                            <Column id="colQty"><Text id="t10" text="필요수량"/></Column>
+                                            <Column id="colShortqty"><Text id="t11" text="부족수량"/></Column>
+                                            <Column id="colStksts"><Text id="t12" text="재고상태"/></Column>
+                                        </columns>
+                                        <items>
+                                            <ColumnListItem id="colList2"
+                                                            highlight="{= ${viewModel>Stksts} === 'N' ? 'Error' : 'Success' }">
+                                                <cells>
+                                                    <Text id="txtProdcd" text="{viewModel>Prodcd}"/>
+                                                    <Text id="txtWhscd" text="{viewModel>Whscd}"/>
+                                                    <Text id="txtQty" text="{viewModel>Qty}"/>
+                                                    <Text id="txtShortqty" text="{viewModel>Shortqty}"/>
+                                                    <ObjectStatus id="objStksts"
+                                                                  text="{= ${viewModel>Stksts} === 'Y' ? '정상' : '부족' }"
+                                                                  state="{= ${viewModel>Stksts} === 'Y' ? 'Success' : 'Error' }"/>
+                                                </cells>
+                                            </ColumnListItem>
+                                        </items>
+                                    </Table>
+                                </Panel>
 
-                        </content>
-                    </IconTabFilter>
+                            </content>
+                        </IconTabFilter>
 
-                    <!-- 승인 완료 탭 -->
-                    <IconTabFilter id="tabApproved"
-                                   text="{= '승인 완료 (' + ${viewModel>/approvedCount} + '건)'}"
-                                   key="approved">
-                        <content>
-                            <ScrollContainer id="sc2"
-                                             height="600px"
-                                             vertical="true"
-                                             width="100%">
-                                <Table id="approvedTable"
-                                       items="{path: '/SalesOrderHeaderSet'}"
-                                       sticky="HeaderToolbar,ColumnHeaders"
-                                       growing="true"
-                                       growingThreshold="50"
-                                       growingScrollToLoad="true"
-                                       noDataText="조회 버튼을 눌러 데이터를 조회하세요.">
-                                    <columns>
-                                        <Column id="colStatus2" width="6em"><Text id="t15" text="상태"/></Column>
-                                        <Column id="colOrdno2"><Text id="t16" text="오더 번호"/></Column>
-                                        <Column id="colCustid2"><Text id="t17" text="고객 ID"/></Column>
-                                        <Column id="colOrddt2"><Text id="tDt2" text="주문일"/></Column>
-                                        <Column id="colOrdseq2" minScreenWidth="Tablet" demandPopin="true"><Text id="t18" text="회차"/></Column>
-                                        <Column id="colAmount2" hAlign="End"><Text id="t19" text="총 금액"/></Column>
-                                    </columns>
-                                    <items>
-                                        <ColumnListItem id="colList3">
-                                            <cells>
-                                                <ObjectStatus id="obj2"
-                                                    text="승인"
-                                                    state="Success"
-                                                    icon="sap-icon://accept"/>
-                                                <ObjectIdentifier id="txtOrdno2" title="{Ordno}"/>
-                                                <Text id="txtCustid2" text="{Custid}"/>
-                                                <Text id="txtOrddt2" text="{path: 'Orddt', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'yyyy-MM-dd'}}"/>
-                                                <Text id="txtOrdseq2" text="{Ordseq}"/>
-                                                <ObjectNumber id="txtAmount2"
-                                                        number="{ path: 'Totamt', type: 'sap.ui.model.type.Float', formatOptions: { groupingEnabled: true, minFractionDigits: 0, maxFractionDigits: 0 } }"
-                                                        unit="{Currency}"/>
-                                            </cells>
-                                        </ColumnListItem>
-                                    </items>
-                                </Table>
-                            </ScrollContainer>
-                        </content>
-                    </IconTabFilter>
+                        <IconTabFilter id="tabApproved"
+                                       text="{= '승인 완료 (' + ${viewModel>/approvedCount} + '건)'}"
+                                       key="approved">
+                            <content>
 
-                </items>
-            </IconTabBar>
+                                <Panel id="sc2"
+                                       expandable="false"
+                                       height="{= ${viewModel>/approvedCount} > 10 ? '800px' : 'auto'}"
+                                       class="sapUiSmallMarginBottom">
+                                    <Table id="approvedTable"
+                                           items="{path: '/SalesOrderHeaderSet'}"
+                                           sticky="HeaderToolbar,ColumnHeaders"
+                                           growing="true"
+                                           growingThreshold="20"
+                                           growingScrollToLoad="false"
+                                           noDataText="조회 버튼을 눌러 데이터를 조회하세요.">
+                                        <columns>
+                                            <Column id="colStatus2" width="6em"><Text id="t15" text="상태"/></Column>
+                                            <Column id="colOrdno2"><Text id="t16" text="오더 번호"/></Column>
+                                            <Column id="colCustid2"><Text id="t17" text="고객 ID"/></Column>
+                                            <Column id="colCustnm2"><Text id="tCustnm2" text="고객명"/></Column>
+                                            <Column id="colOrddt2"><Text id="tDt2" text="주문일"/></Column>
+                                            <Column id="colOrdseq2" minScreenWidth="Tablet" demandPopin="true"><Text id="t18" text="회차"/></Column>
+                                            <Column id="colAmount2" hAlign="End"><Text id="t19" text="총 금액"/></Column>
+                                            <Column id="colDetail2" width="6em" hAlign="Center"><Text id="tDetail2" text="상세"/></Column>
+                                        </columns>
+                                        <items>
+                                            <ColumnListItem id="colList3">
+                                                <cells>
+                                                    <ObjectStatus id="obj2"
+                                                                  text="승인"
+                                                                  state="Success"
+                                                                  icon="sap-icon://accept"/>
+                                                    <ObjectIdentifier id="txtOrdno2" title="{Ordno}"/>
+                                                    <Text id="txtCustid2" text="{Custid}"/>
+                                                    <Text id="txtCustnm2" text="{Custnm}"/>
+                                                    <Text id="txtOrddt2" text="{path: 'Orddt', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'yyyy-MM-dd'}}"/>
+                                                    <Text id="txtOrdseq2" text="{Ordseq}"/>
+                                                    <ObjectNumber id="txtAmount2"
+                                                                  number="{ path: 'Totamt', type: 'sap.ui.model.type.Float', formatOptions: { groupingEnabled: true, minFractionDigits: 0, maxFractionDigits: 0 } }"
+                                                                  unit="{Currency}"/>
+                                                    <Button id="btnDetail2"
+                                                            icon="sap-icon://detail-view"
+                                                            type="Transparent"
+                                                            press="onOrdnoPress"/>
+                                                </cells>
+                                            </ColumnListItem>
+                                        </items>
+                                    </Table>
+                                </Panel>
+
+                            </content>
+                        </IconTabFilter>
+
+                    </items>
+                </IconTabBar>
+            </Panel>
         </content>
+
+        <dependents>
+            <Dialog id="ordDetailDialog"
+                    contentWidth="800px"
+                    contentHeight="500px"
+                    verticalScrolling="true"
+                    resizable="true"
+                    draggable="true"
+                    class="customDialogStyle">
+
+                <customHeader>
+                    <Bar id="dlgBar" class="customHeaderBar">
+                        <contentLeft>
+                            <HBox id="dlgHeaderTitleHBox" alignItems="Center">
+                                <core:Icon id="dlgHeaderIcon" src="sap-icon://sales-order" color="#ffffff" class="sapUiTinyMarginEnd" size="1.2rem"/>
+                                <Title id="dlgTitle" text="오더 상세: {detailModel>/ordno}" level="H4" class="customHeaderTitle"/>
+                            </HBox>
+                        </contentLeft>
+                        <contentRight>
+                            <ObjectStatus id="dlgOrdsts"
+                                          text="{detailModel>/ordstsTxt}"
+                                          state="{detailModel>/ordstsStt}"
+                                          inverted="true"
+                                          class="customHeaderStatus"/>
+                        </contentRight>
+                    </Bar>
+                </customHeader>
+
+                <content>
+                    <VBox id="dlgContentVBox" class="sapUiSmallMargin">
+
+                        <Panel id="dlgInfoPanel" expandable="false" class="sapUiSmallMarginBottom">
+                            <headerToolbar>
+                                <OverflowToolbar id="dlgInfoToolbar">
+                                    <Title id="dlgInfoTitle" text="오더 정보" level="H5"/>
+                                </OverflowToolbar>
+                            </headerToolbar>
+                            <Table id="dlgInfoTable"
+                                   items="{detailModel>/infoRows}"
+                                   showSeparators="Inner"
+                                   showNoData="false"
+                                   backgroundDesign="Solid">
+                                <columns>
+                                    <Column id="dlgInfoColLabel" width="8em">
+                                        <Text id="dlgInfoColLabelTxt" text=""/>
+                                    </Column>
+                                    <Column id="dlgInfoColValue">
+                                        <Text id="dlgInfoColValueTxt" text=""/>
+                                    </Column>
+                                </columns>
+                                <items>
+                                    <ColumnListItem id="dlgInfoRow" type="Inactive">
+                                        <cells>
+                                            <Label id="dlgInfoLabel" text="{detailModel>label}" design="Bold" class="infoCardLabel"/>
+                                            <Text id="dlgInfoValue" text="{detailModel>value}" class="infoCardText"/>
+                                        </cells>
+                                    </ColumnListItem>
+                                </items>
+                            </Table>
+                        </Panel>
+
+                        <Panel id="dlgItemPanel" expandable="false">
+                            <headerToolbar>
+                                <OverflowToolbar id="dlgItemToolbar">
+                                    <core:Icon id="dlgItemSectionIcon" src="sap-icon://list" color="#1c4c98" class="sapUiTinyMarginEnd"/>
+                                    <Title id="dlgItemSectionTitle" text="패키지 아이템 ({detailModel>/itemCount}건)" level="H5" class="sectionTitle"/>
+                                </OverflowToolbar>
+                            </headerToolbar>
+                            <Table id="dlgItemTable"
+                                   items="{detailModel>/items}"
+                                   backgroundDesign="Transparent"
+                                   alternateRowColors="true">
+                                <columns>
+                                    <Column id="dlgColPackCd"><Text id="dlgLblColPackCd" text="패키지코드"/></Column>
+                                    <Column id="dlgColPackYm"><Text id="dlgLblColPackYm" text="구성년월"/></Column>
+                                    <Column id="dlgColQty" hAlign="End"><Text id="dlgLblColQty" text="수량"/></Column>
+                                    <Column id="dlgColPrice" hAlign="End"><Text id="dlgLblColPrice" text="단가"/></Column>
+                                    <Column id="dlgColTotAmt" hAlign="End"><Text id="dlgLblColTotAmt" text="금액"/></Column>
+                                    <Column id="dlgColCurrency" hAlign="Center"><Text id="dlgLblColCurrency" text="통화"/></Column>
+                                </columns>
+                                <items>
+                                    <ColumnListItem id="dlgItemTableRow" type="Inactive">
+                                        <cells>
+                                            <Text id="dlgCellTxtPackCd" text="{detailModel>packcd}"/>
+                                            <Text id="dlgCellTxtPackYm" text="{detailModel>packym}"/>
+                                            <Text id="dlgCellTxtQty" text="{detailModel>qtyUnit}"/>
+                                            <Text id="dlgCellTxtPrice" text="{detailModel>price}"/>
+                                            <Text id="dlgCellTxtTotAmt" text="{detailModel>ptotamt}"/>
+                                            <Text id="dlgCellTxtCurrency" text="{detailModel>currency}"/>
+                                        </cells>
+                                    </ColumnListItem>
+                                </items>
+                            </Table>
+                        </Panel>
+
+                    </VBox>
+                </content>
+
+                <endButton>
+                    <Button id="dlgBtnClose" text="닫기" type="Ghost" press="onDetailClose"/>
+                </endButton>
+
+            </Dialog>
+        </dependents>
+
     </Page>
 </mvc:View>
