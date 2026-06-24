@@ -20,20 +20,17 @@
                         <content>
                             <FlexBox id="filterBox" renderType="Bare" wrap="Wrap">
                                 <items>
-                                                            <FlexBox id="fb1" direction="Column" class="sapUiSmallMarginEnd sapUiSmallMarginBottom">
-                                <items>
-                                    <!-- <Label id="lblPackcd" text="패키지 코드" class="sapUiSmallMarginBottom"/> -->
-                                    <Input id="inputPackcd"
-                                        placeholder="패키지 코드"
-                                        width="180px"
-                                        showValueHelp="true"
-                                        valueHelpRequest="onPackcdValueHelp"/>
-                                </items>
-                            </FlexBox>
-
+                                    <FlexBox id="fb1" direction="Column" class="sapUiSmallMarginEnd sapUiSmallMarginBottom">
+                                        <items>
+                                            <Input id="inputPackcd"
+                                                placeholder="패키지 코드"
+                                                width="180px"
+                                                showValueHelp="true"
+                                                valueHelpRequest="onPackcdValueHelp"/>
+                                        </items>
+                                    </FlexBox>
                                     <FlexBox id="fb2" direction="Column" class="sapUiSmallMarginEnd sapUiSmallMarginBottom">
                                         <items>
-                                            <!-- <Label id="lblPacknm" text="패키지 명" class="sapUiSmallMarginBottom"/> -->
                                             <Input id="inputPacknm"
                                                 placeholder="패키지 명"
                                                 width="180px"
@@ -43,19 +40,16 @@
                                     </FlexBox>
                                     <FlexBox id="fb3" direction="Column" class="sapUiSmallMarginEnd sapUiSmallMarginBottom">
                                         <items>
-                                            <!-- <Label id="lblPackymFrom" text="구성년월 From" class="sapUiSmallMarginBottom"/> -->
                                             <Input id="inputPackymFrom" placeholder="YYYYMM(From)" width="130px"/>
                                         </items>
                                     </FlexBox>
                                     <FlexBox id="fb4" direction="Column" class="sapUiSmallMarginEnd sapUiSmallMarginBottom">
                                         <items>
-                                            <!-- <Label id="lblPackymTo" text="구성년월 To" class="sapUiSmallMarginBottom"/> -->
                                             <Input id="inputPackymTo" placeholder="YYYYMM(To)" width="130px"/>
                                         </items>
                                     </FlexBox>
                                     <FlexBox id="fb5" direction="Column" class="sapUiSmallMarginEnd sapUiSmallMarginBottom">
                                         <items>
-                                            <!-- <Label id="lblSalsts" text="판매상태" class="sapUiSmallMarginBottom"/> -->
                                             <Select id="selectSalsts" width="120px">
                                                 <items>
                                                     <core:Item id="itmAll" key=""  text="전체"/>
@@ -76,72 +70,96 @@
                     </Panel>
 
                     <!-- KPI 카드 -->
-<FlexBox id="kpiBox" renderType="Bare" justifyContent="SpaceBetween" class="sapUiSmallMarginTop">
-    <items>
-        <GenericTile id="tileActive"
-                     header="판매중 패키지"
-                     subheader="현재 판매중인 패키지 수"
-                      headerImage="sap-icon://product"
-                     class="sapUiSmallMarginEnd"
-                     frameType="TwoByOne"
-                    press="onTileActivePress">
-            <tileContent>
-                <TileContent id="tc_active" >
-                    <content>
-                        <NumericContent id="nc_active"
-                                        value="{viewModel>/kpiActive}"
-                                        valueColor="Good"/>
-                    </content>
-                </TileContent>
-            </tileContent>
-        </GenericTile>
+                    <FlexBox id="kpiBox" renderType="Bare" justifyContent="SpaceBetween" class="sapUiSmallMarginTop" width="100%">
+                        <items>
+                            <GenericTile id="tileActive"
+                                         header="판매중 패키지"
+                                         subheader="현재 판매중인 패키지 수"
+                                         headerImage="sap-icon://product"
+                                         class="sapUiSmallMarginEnd"
+                                         frameType="TwoByOne"
+                                          width="32%"
+                                         press="onTileActivePress">
+                                <tileContent>
+                                    <TileContent id="tc_active">
+                                        <content>
+                                            <NumericContent id="nc_active"
+                                                            scale="개"
+                                                            value="{viewModel>/kpiActive}"
+                                                            valueColor="Good"/>
+                                        </content>
+                                    </TileContent>
+                                </tileContent>
+                            </GenericTile>
 
-        <GenericTile id="tileSubject"
-                     header="과목 수"
-                     subheader="구독 가능한 과목 종류"
-                     headerImage="sap-icon://education"
-                     class="sapUiSmallMarginEnd"
-                     frameType="TwoByOne"
-                      press="onTileChartPress">
-            <tileContent>
-                <TileContent id="tc_subject" >
-                    <content>
-                        <NumericContent id="nc_subject"
-                                        value="{viewModel>/kpiSubject}"
-                                        valueColor="Neutral"/>
-                    </content>
-                </TileContent>
-            </tileContent>
-        </GenericTile>
+                            <GenericTile id="tileSubject"
+                                         header="과목 수"
+                                         subheader="구독 가능한 과목 종류"
+                                         headerImage="sap-icon://education"
+                                         class="sapUiSmallMarginEnd"
+                                         frameType="TwoByOne"
+                                          width="32%"
+                                         press="onTileChartPress">
+                                <tileContent>
+                                    <TileContent id="tc_subject">
+                                        <content>
+                                            <NumericContent id="nc_subject"
+                                                            scale="개"
+                                                            value="{viewModel>/kpiSubject}"
+                                                            valueColor="Neutral"/>
+                                        </content>
+                                    </TileContent>
+                                </tileContent>
+                            </GenericTile>
 
-        <GenericTile id="tileAvgPrice"
-                     header="전체 평균가격 (KRW)"
-                     subheader="조회된 패키지 평균"
-                      headerImage="sap-icon://currency"
-                     frameType="TwoByOne"
-                      press="onTileChartPress">
-            <tileContent>
-                <TileContent id="tc_avgprice" >
-                    <content>
-                        <NumericContent id="nc_avgprice"
-                                        value="{viewModel>/kpiAvgPrice}"
-                                        valueColor="Critical"
-                                        truncateValueTo="6"/>
-                    </content>
-                </TileContent>
-            </tileContent>
-        </GenericTile>
-    </items>
-</FlexBox>
+                            <GenericTile id="tileAvgPrice"
+                                         header="전체 평균가격 (KRW)"
+                                         subheader="조회된 패키지 평균"
+                                         headerImage="sap-icon://currency"
+                                         frameType="TwoByOne"
+                                          width="32%"
+                                         press="onTileChartPress">
+                                <tileContent>
+                                    <TileContent id="tc_avgprice">
+                                        <content>
+                                            <NumericContent id="nc_avgprice"
+                                                            value="{viewModel>/kpiAvgPrice}"
+                                                            scale="KRW"
+                                                            valueColor="Critical"
+                                                            truncateValueTo="6"/>
+                                        </content>
+                                    </TileContent>
+                                </tileContent>
+                            </GenericTile>
+                        </items>
+                    </FlexBox>
 
                     <!-- 차트: 과목별 평균가격 -->
                     <Panel id="chartPanel" headerText="과목별 평균가격" class="sapUiSmallMarginTop">
                         <content>
+                                <HBox id="legendBox" justifyContent="End" class="sapUiSmallMarginTop sapUiSmallMarginEnd">
+                                <items>
+                                    <HBox id="legendTop3Box" alignItems="Center" class="sapUiSmallMarginEnd">
+                                        <items>
+                                            <core:Icon id="legendTop3Icon" src="sap-icon://circle-task-2" color="#e9730c"/>
+                                            <Text id="legendTop3Text" text=" 평균가격 TOP 3" class="sapUiSmallMarginBegin"/>
+                                        </items>
+                                    </HBox>
+                                    <HBox id="legendOtherBox" alignItems="Center">
+                                        <items>
+                                            <core:Icon id="legendOtherIcon" src="sap-icon://circle-task-2" color="#0070f2"/>
+                                            <Text id="legendOtherText" text=" 일반" class="sapUiSmallMarginBegin"/>
+                                        </items>
+                                    </HBox>
+                                </items>
+                            </HBox>
+
                             <viz:VizFrame id="vizChart"
                                           vizType="column"
                                           width="100%"
                                           height="300px"
-                                          uiConfig="{applicationSet:'fiori'}">
+                                          uiConfig="{applicationSet:'fiori'}"
+                                          selectData="onChartSelect">
                                 <viz:dataset>
                                     <vizData:FlattenedDataset id="ds1"
                                         data="{viewModel>/chartData}">
@@ -158,10 +176,11 @@
                                     <vizFeeds:FeedItem id="feed2" uid="valueAxis"    type="Measure"   values="평균가격"/>
                                 </viz:feeds>
                             </viz:VizFrame>
+                            
+                            
                         </content>
                     </Panel>
 
-                    <!-- 헤더 테이블 -->
                     <!-- 헤더 테이블 -->
                     <Panel id="headerPanel" headerText="패키지 목록" class="sapUiSmallMarginTop">
                         <content>
@@ -199,9 +218,9 @@
                                                 <ObjectStatus id="objSalsts"
                                                     text="{= ${viewModel>salsts} === '1' ? '판매중' : '판매중단'}"
                                                     state="{= ${viewModel>salsts} === '1' ? 'Success' : 'Error'}"/>
-                                            <ObjectNumber id="txtPrice"
-                                number="{path: 'viewModel>price', formatter: '.formatPrice'}"
-                                unit="{viewModel>currency}"/>
+                                                <ObjectNumber id="txtPrice"
+                                                    number="{path: 'viewModel>price', formatter: '.formatPrice'}"
+                                                    unit="{viewModel>currency}"/>
                                             </cells>
                                         </ColumnListItem>
                                     </items>
@@ -248,3 +267,16 @@
         </content>
     </Page>
 </mvc:View>
+
+
+
+
+
+
+
+
+
+
+
+
+

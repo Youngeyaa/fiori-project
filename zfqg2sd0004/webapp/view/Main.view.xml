@@ -129,6 +129,7 @@
                                                 <content>
                                                     <NumericContent id="nc_ordcnt"
                                                                     value="{viewModel>/kpiOrdCnt}"
+                                                                    scale="건"
                                                                     valueColor="Neutral"
                                                                     truncateValueTo="10"/>
                                                 </content>
@@ -147,6 +148,7 @@
                                                 <content>
                                                     <NumericContent id="nc_apvcnt"
                                                                     value="{viewModel>/kpiApvCnt}"
+                                                                    scale="건"
                                                                     valueColor="Critical"
                                                                     truncateValueTo="10"/>
                                                 </content>
