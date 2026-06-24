@@ -81,7 +81,7 @@
     "resources": {
       "css": [
         {
-          "uri": "css/kpi.css"
+          "uri": "css/style.css"
         }
       ]
     },
