@@ -68,114 +68,94 @@
                     <FlexBox id="contentBox" renderType="Bare" direction="Column" width="100%" class="sapUiSmallMarginTop">
                         <items>
 
-                            <!-- KPI 카드 4개 가로 정렬 -->
-                            <HBox id="kpiBox" width="100%" renderType="Bare" class="kpiCardRoot sapUiSmallMarginBottom">
+                            <!-- KPI 타일 가로 정렬 -->
+                            <FlexBox id="kpiBox"
+                                     renderType="Bare"
+                                     wrap="NoWrap"
+                                     justifyContent="SpaceBetween"
+                                     class="sapUiSmallMarginBottom">
                                 <items>
 
-                                    <VBox id="kpiGrowthBox" class="kpiCardBox" visible="{viewModel>/compareVisible}">
-                                        <items>
-                                            <HBox id="kpiGrowthHeader" justifyContent="SpaceBetween" alignItems="Start">
-                                                <items>
-                                                    <VBox id="kpiGrowthLabelBox">
-                                                        <items>
-                                                            <Text id="kpiGrowthLabel1" text="전년동기 대비" class="kpiCardLabel"/>
-                                                            <Text id="kpiGrowthLabel2" text="매출 증감률"   class="kpiCardLabel"/>
-                                                        </items>
-                                                    </VBox>
-                                                    <core:Icon id="kpiGrowthIconUp"
-                                                               src="sap-icon://trend-up"
-                                                               class="kpiCardIcon kpiIconGood"
-                                                               visible="{= ${viewModel>/kpiGrowth} >= 0}"/>
-                                                    <core:Icon id="kpiGrowthIconDown"
-                                                               src="sap-icon://trend-down"
-                                                               class="kpiCardIcon kpiIconCritical"
-                                                               visible="{= ${viewModel>/kpiGrowth} &lt; 0}"/>
-                                                </items>
-                                            </HBox>
-                                            <HBox id="kpiGrowthValueBox" alignItems="Baseline">
-                                                <items>
-                                                    <Text id="kpiGrowthValueGood"
-                                                          text="{viewModel>/kpiGrowth}"
-                                                          class="kpiCardValue kpiValueGood"
-                                                          visible="{= ${viewModel>/kpiGrowth} >= 0}"/>
-                                                    <Text id="kpiGrowthValueBad"
-                                                          text="{viewModel>/kpiGrowth}"
-                                                          class="kpiCardValue kpiValueCritical"
-                                                          visible="{= ${viewModel>/kpiGrowth} &lt; 0}"/>
-                                                    <Text id="kpiGrowthUnit" text="%" class="kpiCardUnit"/>
-                                                </items>
-                                            </HBox>
-                                        </items>
-                                    </VBox>
+                                    <GenericTile id="tileGrowth"
+                                                 header="전년동기 대비"
+                                                 subheader="매출 증감률"
+                                                 headerImage="{= ${viewModel>/kpiGrowth} >= 0 ? 'sap-icon://trend-up' : 'sap-icon://trend-down'}"
+                                                 frameType="TwoByOne"
+                                                 visible="{viewModel>/compareVisible}"
+                                                 state="{= ${viewModel>/kpiGrowth} >= 0 ? 'Loaded' : 'Failed'}"
+                                                 width="24%">
+                                        <tileContent>
+                                            <TileContent id="tc_growth">
+                                                <content>
+                                                    <NumericContent id="nc_growth"
+                                                                    value="{viewModel>/kpiGrowth}"
+                                                                    scale="%"
+                                                                    valueColor="{viewModel>/kpiGrowthColor}"
+                                                                    withMargin="false"
+                                                                    truncateValueTo="10"/>
+                                                </content>
+                                            </TileContent>
+                                        </tileContent>
+                                    </GenericTile>
 
-                                    <VBox id="kpiTotamtBox" class="kpiCardBox">
-                                        <items>
-                                            <HBox id="kpiTotamtHeader" justifyContent="SpaceBetween" alignItems="Start">
-                                                <items>
-                                                    <VBox id="kpiTotamtLabelBox">
-                                                        <items>
-                                                            <Text id="kpiTotamtLabel1" text="월별 총매출"    class="kpiCardLabel"/>
-                                                            <Text id="kpiTotamtLabel2" text="조회 기간 합계" class="kpiCardLabel"/>
-                                                        </items>
-                                                    </VBox>
-                                                    <core:Icon id="kpiTotamtIcon" src="sap-icon://money-bills" class="kpiCardIcon kpiIconGood"/>
-                                                </items>
-                                            </HBox>
-                                            <HBox id="kpiTotamtValueBox" alignItems="Baseline">
-                                                <items>
-                                                    <Text id="kpiTotamtValue" text="{viewModel>/kpiTotamt}" class="kpiCardValue kpiValueGood"/>
-                                                    <Text id="kpiTotamtUnit"  text="KRW" class="kpiCardUnit"/>
-                                                </items>
-                                            </HBox>
-                                        </items>
-                                    </VBox>
+                                    <GenericTile id="tileTotamt"
+                                                 header="월별 총매출"
+                                                 subheader="조회 기간 합계"
+                                                 headerImage="sap-icon://money-bills"
+                                                 frameType="TwoByOne"
+                                                 width="{= ${viewModel>/compareVisible} ? '24%' : '32%'}">
+                                        <tileContent>
+                                            <TileContent id="tc_totamt">
+                                                <content>
+                                                    <NumericContent id="nc_totamt"
+                                                                    value="{viewModel>/kpiTotamt}"
+                                                                    scale="KRW"
+                                                                    valueColor="Good"
+                                                                    withMargin="false"
+                                                                    truncateValueTo="20"/>
+                                                </content>
+                                            </TileContent>
+                                        </tileContent>
+                                    </GenericTile>
 
-                                    <VBox id="kpiOrdCntBox" class="kpiCardBox">
-                                        <items>
-                                            <HBox id="kpiOrdCntHeader" justifyContent="SpaceBetween" alignItems="Start">
-                                                <items>
-                                                    <VBox id="kpiOrdCntLabelBox">
-                                                        <items>
-                                                            <Text id="kpiOrdCntLabel1" text="구독건수"       class="kpiCardLabel"/>
-                                                            <Text id="kpiOrdCntLabel2" text="전체 오더 건수"  class="kpiCardLabel"/>
-                                                        </items>
-                                                    </VBox>
-                                                    <core:Icon id="kpiOrdCntIcon" src="sap-icon://document" class="kpiCardIcon kpiIconNeutral"/>
-                                                </items>
-                                            </HBox>
-                                            <HBox id="kpiOrdCntValueBox" alignItems="Baseline">
-                                                <items>
-                                                    <Text id="kpiOrdCntValue" text="{viewModel>/kpiOrdCnt}" class="kpiCardValue"/>
-                                                    <Text id="kpiOrdCntUnit"  text="건" class="kpiCardUnit"/>
-                                                </items>
-                                            </HBox>
-                                        </items>
-                                    </VBox>
+                                    <GenericTile id="tileOrdCnt"
+                                                 header="구독건수"
+                                                 subheader="전체 오더 건수"
+                                                 headerImage="sap-icon://document"
+                                                 frameType="TwoByOne"
+                                                 width="{= ${viewModel>/compareVisible} ? '24%' : '32%'}">
+                                        <tileContent>
+                                            <TileContent id="tc_ordcnt">
+                                                <content>
+                                                    <NumericContent id="nc_ordcnt"
+                                                                    value="{viewModel>/kpiOrdCnt}"
+                                                                    valueColor="Neutral"
+                                                                    truncateValueTo="10"/>
+                                                </content>
+                                            </TileContent>
+                                        </tileContent>
+                                    </GenericTile>
 
-                                    <VBox id="kpiApvCntBox" class="kpiCardBox">
-                                        <items>
-                                            <HBox id="kpiApvCntHeader" justifyContent="SpaceBetween" alignItems="Start">
-                                                <items>
-                                                    <VBox id="kpiApvCntLabelBox">
-                                                        <items>
-                                                            <Text id="kpiApvCntLabel1" text="승인건수"           class="kpiCardLabel"/>
-                                                            <Text id="kpiApvCntLabel2" text="승인 완료 오더 건수"  class="kpiCardLabel"/>
-                                                        </items>
-                                                    </VBox>
-                                                    <core:Icon id="kpiApvCntIcon" src="sap-icon://accept" class="kpiCardIcon kpiIconWarning"/>
-                                                </items>
-                                            </HBox>
-                                            <HBox id="kpiApvCntValueBox" alignItems="Baseline">
-                                                <items>
-                                                    <Text id="kpiApvCntValue" text="{viewModel>/kpiApvCnt}" class="kpiCardValue kpiValueWarning"/>
-                                                    <Text id="kpiApvCntUnit"  text="건" class="kpiCardUnit"/>
-                                                </items>
-                                            </HBox>
-                                        </items>
-                                    </VBox>
+                                    <GenericTile id="tileApvCnt"
+                                                 header="승인건수"
+                                                 subheader="승인 완료 오더 건수"
+                                                 headerImage="sap-icon://accept"
+                                                 frameType="TwoByOne"
+                                                 width="{= ${viewModel>/compareVisible} ? '24%' : '32%'}">
+                                        <tileContent>
+                                            <TileContent id="tc_apvcnt">
+                                                <content>
+                                                    <NumericContent id="nc_apvcnt"
+                                                                    value="{viewModel>/kpiApvCnt}"
+                                                                    valueColor="Critical"
+                                                                    truncateValueTo="10"/>
+                                                </content>
+                                            </TileContent>
+                                        </tileContent>
+                                    </GenericTile>
 
                                 </items>
-                            </HBox>
+                            </FlexBox>
 
                             <!-- 차트: 월별 매출 추이 -->
                             <Panel id="chartPanel" headerText="월별 매출 추이" width="100%">
