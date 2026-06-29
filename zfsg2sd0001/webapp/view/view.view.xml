@@ -62,14 +62,13 @@
                             class="sapUiNoMargin">
                     <items>
 
+                        <!-- 승인 대기 탭 -->
                         <IconTabFilter id="tabPending"
                                        text="{= '승인 대기 (' + ${viewModel>/pendingCount} + '건)'}"
                                        key="pending">
                             <content>
-
                                 <Panel id="sc1"
                                        expandable="false"
-                                       height="{= ${viewModel>/pendingCount} > 10 ? '400px' : 'auto'}"
                                        class="sapUiSmallMarginBottom">
                                     <Table id="headerTable"
                                            items="{path: '/SalesOrderHeaderSet'}"
@@ -116,19 +115,22 @@
                                     </Table>
                                 </Panel>
 
-                                <Panel id="scrollMapping"
-                                       expandable="false"
-                                       visible="{viewModel>/mappingVisible}"
-                                       class="sapUiSmallMarginTop">
-                                    <headerToolbar>
-                                        <OverflowToolbar id="oft2">
-                                            <Title id="t7" text="제품 소요 현황 ({viewModel>/selectedOrdno})" level="H3"/>
-                                        </OverflowToolbar>
-                                    </headerToolbar>
+                                <!-- 제품 소요 현황 -->
+                                <ScrollContainer id="scrollMapping"
+                                                 height="250px"
+                                                 vertical="true"
+                                                 width="100%"
+                                                 visible="{viewModel>/mappingVisible}"
+                                                 class="sapUiSmallMarginTop">
                                     <Table id="mappingTable"
                                            items="{viewModel>/mappingItems}"
                                            sticky="HeaderToolbar,ColumnHeaders"
                                            noDataText="오더 행을 클릭하면 제품 소요 현황이 표시됩니다.">
+                                        <headerToolbar>
+                                            <OverflowToolbar id="oft2">
+                                                <Title id="t7" text="제품 소요 현황 ({viewModel>/selectedOrdno})" level="H3"/>
+                                            </OverflowToolbar>
+                                        </headerToolbar>
                                         <columns>
                                             <Column id="colProdcd"><Text id="t8" text="제품코드"/></Column>
                                             <Column id="colWhscd"><Text id="t9" text="창고코드"/></Column>
@@ -138,38 +140,34 @@
                                         </columns>
                                         <items>
                                             <ColumnListItem id="colList2"
-                                                            highlight="{= ${viewModel>Stksts} === 'N' ? 'Error' : 'Success' }">
+                                                highlight="{= ${viewModel>Stksts} === 'N' ? 'Error' : 'Success' }">
                                                 <cells>
                                                     <Text id="txtProdcd" text="{viewModel>Prodcd}"/>
                                                     <Text id="txtWhscd" text="{viewModel>Whscd}"/>
                                                     <Text id="txtQty" text="{viewModel>Qty}"/>
                                                     <Text id="txtShortqty" text="{viewModel>Shortqty}"/>
                                                     <ObjectStatus id="objStksts"
-                                                                  text="{= ${viewModel>Stksts} === 'Y' ? '정상' : '부족' }"
-                                                                  state="{= ${viewModel>Stksts} === 'Y' ? 'Success' : 'Error' }"/>
+                                                        text="{= ${viewModel>Stksts} === 'Y' ? '정상' : '부족' }"
+                                                        state="{= ${viewModel>Stksts} === 'Y' ? 'Success' : 'Error' }"/>
                                                 </cells>
                                             </ColumnListItem>
                                         </items>
                                     </Table>
-                                </Panel>
-
+                                </ScrollContainer>
                             </content>
                         </IconTabFilter>
 
+                        <!-- 승인 완료 탭 -->
                         <IconTabFilter id="tabApproved"
                                        text="{= '승인 완료 (' + ${viewModel>/approvedCount} + '건)'}"
                                        key="approved">
                             <content>
-
-                                <Panel id="sc2"
-                                       expandable="false"
-                                       height="{= ${viewModel>/approvedCount} > 10 ? '800px' : 'auto'}"
-                                       class="sapUiSmallMarginBottom">
+                                <Panel id="sc2" expandable="false">
                                     <Table id="approvedTable"
                                            items="{path: '/SalesOrderHeaderSet'}"
                                            sticky="HeaderToolbar,ColumnHeaders"
                                            growing="true"
-                                           growingThreshold="20"
+                                           growingThreshold="50"
                                            growingScrollToLoad="false"
                                            noDataText="조회 버튼을 눌러 데이터를 조회하세요.">
                                         <columns>
@@ -206,7 +204,6 @@
                                         </items>
                                     </Table>
                                 </Panel>
-
                             </content>
                         </IconTabFilter>
 
@@ -312,9 +309,18 @@
                     </VBox>
                 </content>
 
-                <endButton>
-                    <Button id="dlgBtnClose" text="닫기" type="Ghost" press="onDetailClose"/>
-                </endButton>
+                <buttons>
+                    <Button id="dlgBtnReject"
+                            text="반려"
+                            type="Reject"
+                            icon="sap-icon://decline"
+                            press="onReject"
+                            visible="{detailModel>/isPending}"/>
+                    <Button id="dlgBtnClose"
+                            text="닫기"
+                            type="Ghost"
+                            press="onDetailClose"/>
+                </buttons>
 
             </Dialog>
         </dependents>
