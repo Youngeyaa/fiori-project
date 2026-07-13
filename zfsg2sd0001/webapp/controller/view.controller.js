@@ -562,6 +562,7 @@ sap.ui.define([
 
             sap.ui.core.BusyIndicator.show(0);
 
+            // 대기/완료 필터 + 검색 조건 조합
             var aPendingFilters = [new Filter("Ordsts", FilterOperator.EQ, "1")].concat(aSearchFilters);
             this.byId("headerTable").getBinding("items").filter(aPendingFilters);
 
@@ -573,6 +574,7 @@ sap.ui.define([
             oViewModel.setProperty("/mappingItems", []);
             oViewModel.setProperty("/selectedOrdno", "");
 
+            // 건수 조회
             var iDone = 0;
             var fnCheckDone = () => {
                 iDone++;
